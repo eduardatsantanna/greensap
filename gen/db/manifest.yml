@@ -1,0 +1,11 @@
+---
+applications:
+  - name: greensapv2-db-deployer
+    path: .
+    no-route: true
+    health-check-type: process
+    memory: 256M
+    buildpacks:
+      - nodejs_buildpack
+    services:
+      - greensapv2-db
