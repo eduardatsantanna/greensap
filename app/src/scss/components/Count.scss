@@ -1,0 +1,34 @@
+@import "../general/index.scss";
+
+.count {
+	text-align: center;
+	padding-top: 0.5rem;
+	width: 100%;
+	transition: all 0.5s ease-in;
+
+	@include hd {
+		width: 33.3%;
+		padding-top: 0rem;
+	}
+
+	.count-number {
+		font-size: $title4;
+		color: $sushi;
+		@include hd {
+			font-size: $title3;
+		}
+	}
+
+	.count-text {
+		font-size: $title5;
+		color: $smokewhite;
+
+		@include hd {
+			font-size: $title4;
+		}
+	}
+
+	&::after {
+		padding-top: 5rem;
+	}
+}

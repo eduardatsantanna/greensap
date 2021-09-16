@@ -22,10 +22,10 @@
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-  "sap.app": { 
-    "id":"yourHtml5ApplicationId", 
-    "applicationVersion":{ 
-      "version": "1.0.0" 
+  "sap.app": {
+    "id": "yourHtml5ApplicationId",
+    "applicationVersion": {
+      "version": "1.0.0"
     }
   }
 }

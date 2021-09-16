@@ -1,0 +1,69 @@
+//Color definitions
+
+$sage: #9ba37b;
+$woodland: #394823;
+$highland: #70865e;
+$sycamore: #919f40;
+$chamois: #ede1b5;
+
+$sushi: #8bc346;
+$smokewhite: #f5f5f5;
+$riptide: #0ac959;
+$gradient_sushi_riptide: linear-gradient(to right, $sushi 0%, $riptide 100%);
+
+$black: #000000;
+$white: #ffffff;
+$flash_white: #f1f3f4;
+$med_white:  #eaeaea;
+
+//Font Styles
+
+$primary_font: "Roboto", Arial;
+$secundary_font: "Muli", "cursive";
+$interface_font: Helvetica, Verdana;
+
+//Font Sizes
+
+$title1: 4.5em;
+$title2: 3.3em;
+$title3: 2.6em;
+$title4: 1.5em;
+$title5: 1em;
+$title6: 0.8em;
+$title7: 0.6em;
+
+//Resolution
+$tablet: 720;
+$hd: 1280;
+$fhd: 1920;
+$uhd: 2560;
+
+@mixin phone{
+	@media only screen and (min-width: 280px) {
+		@content;
+	}
+}
+
+@mixin tablet {
+	@media only screen and (min-width: 768px) {
+		@content;
+	}
+}
+
+@mixin hd {
+	@media only screen and (min-width: 1200px) {
+		@content;
+	}
+}
+
+@mixin fhd {
+	@media only screen and (min-width: 1920px) {
+		@content;
+	}
+}
+
+@mixin uhd {
+	@media only screen and (min-width: 2560px) {
+		@content;
+	}
+}

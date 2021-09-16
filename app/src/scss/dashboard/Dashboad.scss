@@ -1,0 +1,409 @@
+@import "../general/index.scss";
+
+%cards {
+	border-radius: 0.5rem;
+	background-color: $white;
+	box-shadow: 0 0.125rem 1rem rgba(216, 214, 213, 0.5);
+	min-height: 5rem;
+	margin-top: 1rem;
+
+}
+
+
+
+.main {
+	@extend %cards;
+	display: flex;
+	padding: 16px 16px;
+	flex-direction: column;
+	justify-content: space-between;
+
+	@include tablet{
+		padding: 16px 36px;
+		flex-direction: row;
+		align-items: center;
+		
+	}
+
+	.main-profile{
+		display: flex;
+		flex-direction: column;
+
+		@include tablet{
+			margin-left: 24px;
+		}
+
+		.ngo-data{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+
+			@include tablet{
+				flex-direction: row;
+				justify-content: start;
+			}
+
+			.logo {
+				width: 6rem;
+				height: 6rem;
+				border-radius: 50%;
+				border: 2px solid $sushi;
+				@include hd{
+					width: 6rem;
+					height: 6rem;
+					border-radius: 3rem;
+				}
+			}
+
+			.data{
+				display: flex;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				flex-direction: column;
+				align-items: center;
+				line-height: 1.2rem;
+
+				@include tablet{
+					padding-left: 1rem;
+					align-items: start;
+				}
+
+				.ngo-name {
+					font-weight: 400;
+					font-size: $title4;
+					line-height: 1.5rem;
+
+					@include tablet{
+						line-height: 2rem;
+					}
+				}
+
+				.title{
+					line-height: 1.5rem;
+				}
+
+				.social-media{
+					margin-top: 10px;
+					font-size: 20px;
+
+					.facebook{
+						color: #4267B2;
+						&:hover{
+							color:#233760;
+						}
+					}
+
+					.instagram{
+						color: #cd486b;
+						&:hover{
+							color:#7d2c41;
+						}
+					}
+
+					.twitter{
+						color: #1DA1F2;
+						&:hover{
+							color:#0d466a;
+						}
+					}
+				}
+			}
+		}
+
+		.sponsors {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			margin-top: 1rem;
+
+			@include tablet{
+				justify-content: start;
+			}
+
+			.sponsor-badge {
+				margin: 0.25rem;
+				border-radius: 50%;
+				width: 1.5rem;
+				height: 1.5rem;
+			}
+		}
+	}
+}
+
+.totals-percents {
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	margin: 16px 0 0 0;
+	width: 100%;
+
+	&.marketplace{
+		margin: 0;
+	}
+
+	@include hd{
+		justify-content: flex-end;
+	}
+
+	&.global-kdis {
+		@include hd{
+			padding-left: 5rem;
+			width: 40rem;
+			margin: 0;
+			align-items: center;
+		}
+	}
+
+	&.global-followers {
+		@include hd{
+			width: 25rem;
+			margin: 0;
+			align-items: center;
+		}
+	}
+
+	.totals-container{
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+
+		@include hd{
+			width: 75%;
+
+			&.marketplace{
+				width: 100%;
+				line-height: $title4;
+			}
+		}
+		.total {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			width: 100%;
+	
+			&.mobile{
+				flex-direction: row;
+				justify-content: space-around;
+			}
+	
+			.total-count {
+				
+	
+				.counter{
+					font-weight: 500;
+					font-size: $title5 + 0.3em ;
+					//line-height: $title5;
+				}
+	
+				.global-counter{
+					font-weight: 500;
+					font-size: $title5 + 0.3em ;
+					//line-height: $title5;
+					@include tablet{
+						font-size: $title4 + 0.3em;
+						//line-height: $title4 + 0.3em;
+					}
+				}
+	
+				.percent{
+					font-weight: 100;
+					font-size: $title6;
+				}
+	
+				.global-percent{
+					font-weight: 100;
+					font-size: $title6;
+	
+					@include tablet{
+						font-size: $title5;
+					}
+				}
+	
+				.global-title {
+					font-weight: 100;
+					font-size: $title6;
+	
+					@include hd{
+						font-size: $title5;
+					}
+				}
+	
+				.title {
+					font-weight: 100;
+					font-size: $title7;
+				}
+			}
+		
+		}
+	}
+}
+
+.target-kpi{
+	margin-top: 1rem;
+	display: flex;
+
+	&.card-style{
+
+		margin-top: 0.2rem;
+	}
+
+	&.mobile{
+		justify-content: center;
+	}
+
+	.current{
+		font-weight: 500;
+		font-size: $title5;
+		&.card-style{
+			font-size: $title6;
+		}
+	}
+
+	.goal{
+		margin-top: 0.5rem;
+		font-weight: 200;
+		font-size: $title6;
+		line-height: $title6;
+		&.card-style{
+			font-size: $title7;
+			line-height: $title7;
+		}
+
+		.small-text{
+			font-size: $title7;
+			&.card-style{
+				font-size: $title7 - 0.2em;
+			}
+		}
+	}
+
+}
+
+.summary-card{
+	.summary-image{
+		height: 60px;
+		width: 100%;
+		opacity: 0.5;
+		object-fit: cover;
+
+		@include tablet{
+			height: 80px;
+		}
+	}
+
+	.image-overlay{
+		height: 60px;
+		width: 100%;
+		background: rgba(255, 255, 255, 0.6);
+
+		@include tablet{
+			height: 80px;
+		}
+	}
+
+	.card-body{
+		display: flex;
+		flex-direction: column;
+		padding: 10px 20px !important;
+
+		@include tablet{
+			min-height: 320px;
+		}
+
+		.body-data{
+			display: flex;
+			justify-content: space-around;
+			width: 100%;
+			margin: 15px 0px;
+
+			.counts{
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				width: 100%;
+
+				.accent{
+					color: #8bc346;
+					font-weight: bold;
+				}
+			}
+
+		}
+
+		.trees-goal{
+			text-align: center;
+
+			.accent{
+				color: #8bc346;
+				font-weight: bold;
+			}
+		}
+
+		.progress-children{
+			font-size: 14px;
+			margin: 0px;
+
+			@include hd{
+				font-size: 16px;
+			}
+
+			.counts{
+				font-family: $primary_font;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				margin: 10px 0px;
+				line-height: 16px;
+
+
+				.counter{
+					font-size: 16px;
+					font-weight: 500;
+
+				}
+
+				.title{
+					font-size: 12px;
+					
+				}
+
+
+				.accent{
+					color: #8bc346;
+					font-weight: bold;
+				}
+			}
+		}
+
+		.project-graph{
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}
+
+.charts {
+	@extend %cards;
+	padding: 1rem;
+
+	.title{
+		font-size: $title4;
+		font-family: $primary_font;
+		font-weight: 500;
+	}
+
+	img{
+		width: 100%;
+	}
+
+	.caption{
+		display: flex;
+		justify-content: flex-end;
+		font-weight: bold;
+		font-size: 12px;
+	}
+}
+

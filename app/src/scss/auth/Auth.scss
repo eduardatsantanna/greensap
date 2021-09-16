@@ -1,0 +1,33 @@
+@import "../general/index.scss";
+
+.modal-footer {
+	display: block;
+}
+
+.modal-body,
+.modal-header,
+.modal-footer {
+	padding: 1rem;
+}
+
+@include hd {
+	.modal-body,
+	.modal-header,
+	.modal-footer {
+		padding: 2rem;
+	}
+
+	.mb2 {
+		margin-bottom: 1.5rem;
+	}
+
+	.back-icon {
+		font-size: 1.5rem;
+	}
+
+	.info-icon {
+		font-size: 1.2rem;
+	}
+}
+
+

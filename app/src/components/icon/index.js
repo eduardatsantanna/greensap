@@ -1,0 +1,1 @@
+export {FlatIcon} from "./FlatIcon";

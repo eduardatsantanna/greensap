@@ -1,0 +1,521 @@
+@import "../general/index.scss";
+
+%cards {
+  border-radius: 0.5rem;
+  background-color: $white;
+  box-shadow: 0 0.125rem 1rem rgba(216, 214, 213, 0.5);
+  min-height: 5rem;
+  margin-top: 1rem;
+}
+
+.project-map {
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+
+  .map {
+    padding-top: 50px;
+    padding-bottom: 4rem;
+    width: 100%;
+    height: 100%;
+    background-color: $flash-white;
+
+    @include hd {
+      padding-top: 60px;
+    }
+  }
+}
+
+.main-ngo {
+  @extend %cards;
+  display: flex;
+  width: 100%;
+  bottom: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  z-index: 300;
+
+  @include tablet {
+    flex-direction: row;
+    top: 40px;
+    bottom: auto;
+    padding: 0.5rem 0.5rem;
+    width: 450px;
+    margin-top: 30px;
+    margin-left: 40px;
+  }
+
+  .back-icon{
+    position: absolute;
+    top: -5px;
+    left: 10px;
+    font-size: 18px;
+  }
+
+  .ngos-profile {
+    font-size: 12px;
+    width: 100%;
+    padding: 0 5px;
+    @include tablet {
+      padding: 0 20px;
+    }
+
+    &.profile {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px;
+    }
+
+    .profile-option {
+      .profile-btn {
+        width: 70px;
+        height: 25px;
+        padding: 0;
+        font-size: $title6;
+      }
+    }
+  }
+}
+
+.market-place {
+  overflow: visible;
+  position: relative;
+  width: 100%;
+  margin-top: 60vh;
+  z-index: 200;
+  @include tablet {
+    width: 450px;
+    margin-top: 200px;
+    margin-left: 40px;
+  }
+  .ngos-projects {
+    @include tablet {
+      padding-bottom: 100px;
+    }
+    width: 100%;
+    z-index: 100;
+    margin-top: 60px;
+  }
+}
+
+.ngo-pro {
+  width: 6rem;
+  font-size: $title4 - 0.3em;
+  padding: 0.5rem;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.ngos {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  @include fhd {
+    width: 6rem;
+  }
+
+  .picture {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    border: 0.2rem $sushi solid;
+
+    @include hd {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 1.5rem;
+    }
+  }
+
+  .name {
+    padding: 0;
+    text-align: center;
+    width: 6.5rem;
+    height: 2rem;
+    padding-top: 5px;
+    line-height: $title6;
+    font-size: $title6;
+    font-style: $primary_font;
+    overflow: hidden;
+  }
+}
+
+.project-card {
+  @extend %cards;
+  margin-top: 0.2rem;
+  cursor: pointer;
+  .banner-img {
+    height: 13rem;
+  }
+
+  .card-body {
+    height: 100%;
+    line-height: $title5;
+
+    .project-header {
+      font-family: $primary_font;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .icons {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+        color: rgba(255, 255, 255, 0.879);
+
+        .icon {
+          font-size: 20px;
+          display: inline-block;
+          margin-right: 10px;
+
+          &:hover {
+            color: $riptide;
+          }
+        }
+      }
+      .name-sponsors {
+        padding-top: 1.2rem;
+        padding-bottom: 0.5rem;
+        padding-left: 10px;
+        background-color: rgba(43, 39, 39, 0.329);
+        color: $white;
+        height: 35%;
+        .project-name {
+          font-weight: 600;
+          font-size: $title5;
+          .ngo-name {
+            font-weight: 300;
+            font-size: $title5 - 0.05em;
+
+            a {
+              color: white;
+              &:hover {
+                color: $riptide;
+              }
+            }
+          }
+        }
+
+        .location {
+          font-weight: 300;
+          font-size: $title5;
+        }
+
+        .sponsors {
+          display: flex;
+
+          .sponsor-badge {
+            margin-top: 0.5rem;
+            margin-right: 0.5rem;
+            border-radius: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+          }
+        }
+      }
+      .project-body {
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(255, 255, 255, 0.8);
+        height: 65%;
+        padding-top: 0.5rem;
+        padding-right: 10px;
+        padding-left: 10px;
+
+        .body {
+          display: flex;
+          justify-content: space-between;
+
+          .project-desc {
+            font-size: $title6;
+            text-align: justify;
+          }
+
+          .project-kpi {
+            width: 100%;
+            height: max-content;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+
+            .donate-button {
+              font-weight: 600;
+              font-size: $title6;
+              padding: 0.1rem 1.8rem;
+              height: 1.5rem;
+            }
+
+            .tree-cost {
+              padding-top: 0.5rem;
+              font-weight: 400;
+              font-size: $title6;
+            }
+
+            .tree-co2 {
+              font-weight: 400;
+              font-size: $title6;
+            }
+
+            .co2-cost {
+              font-weight: 400;
+              font-size: $title6;
+            }
+          }
+        }
+      }
+    }
+
+    .project-more-info {
+      margin: 10px;
+
+      .project-mission {
+        font-size: $title5;
+        line-height: $title4;
+      }
+
+      .project-kpis {
+        display: flex;
+        flex-direction: column;
+        .kpi {
+          display: flex;
+          flex-direction: row;
+          margin-top: 15px;
+          .title {
+            font-weight: 600;
+          }
+          .value {
+            font-weight: 300;
+          }
+        }
+      }
+
+      .project-desc {
+        margin-top: 15px;
+
+        .focus {
+          font-weight: 600;
+        }
+      }
+    }
+
+    .banner-img {
+      padding: 10px;
+      height: 140px;
+      width: 100%;
+    }
+  }
+}
+
+.project-details-card {
+  @extend %cards;
+
+  .banner-img {
+    height: 13rem;
+  }
+
+  .sponsors {
+    position: absolute;
+    bottom: 1rem;
+
+    .sponsor-badge {
+      margin-top: 0.5rem;
+      margin-right: 0.5rem;
+      border-radius: 0.5rem;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .card-body {
+    padding: 10px;
+    height: 100%;
+    line-height: $title5;
+
+    .project-details-header {
+      display: flex;
+      flex-direction: row;
+
+      .name-location {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        line-height: $title5;
+        justify-content: space-between;
+        .project-name {
+          font-size: $title5;
+          font-weight: 600;
+        }
+        .ngo-name {
+          font-size: $title5 - 0.05em;
+          color: $woodland;
+          font-weight: 300;
+        }
+      }
+
+      .project-kpi {
+        width: 42%;
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        .donate-button {
+          font-weight: 600;
+          font-size: $title6;
+          padding: 0.1rem 1.8rem;
+          height: 1.5rem;
+        }
+        .tree-cost {
+          padding-top: 0.5rem;
+          font-weight: 400;
+          font-size: $title6;
+        }
+        .tree-co2 {
+          font-weight: 400;
+          font-size: $title6;
+        }
+        .co2-cost {
+          font-weight: 400;
+          font-size: $title6;
+        }
+      }
+    }
+
+    .project-details-about {
+      padding-top: 10px;
+      line-height: $title4;
+      .title {
+        font-size: $title4;
+        font-family: $secundary_font;
+        font-weight: 300;
+      }
+
+      .about-desc {
+        text-align: justify;
+      }
+
+      .project-kpis {
+        .kpi {
+          padding-top: 10px;
+          .desc {
+            display: inline-block;
+            padding-left: 5px;
+            font-weight: 600;
+            .value {
+              font-weight: 300;
+            }
+          }
+        }
+      }
+      .project-progress {
+        display: flex;
+
+        .circular-progress {
+          width: 200px;
+        }
+
+        .progress-info {
+          width: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+
+          .total-count {
+            line-height: $title5;
+            .counter {
+              text-align: center;
+              font-weight: 600;
+            }
+            .title {
+              font-size: $title5;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.invest {
+  .ngo-project {
+    text-align: center;
+  }
+
+  .text-option {
+    text-align: center;
+    font-weight: 600;
+    font-size: $title4 - 0.1em;
+  }
+
+  .invest-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .input {
+      border: 5px solid $sushi;
+      border-radius: 4px;
+      width: 65%;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  .totals {
+    display: flex;
+    justify-content: space-between;
+    background-color: $flash-white;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .grand-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .choose-payment {
+    display: flex;
+    justify-content: space-between;
+
+    .payment-method {
+      position: relative;
+      width: 48%;
+      height: 80px;
+      background-color: $flash-white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 2px;
+
+      .check {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        color: $sushi;
+      }
+
+      .icon {
+        color: rgb(113, 130, 119);
+        font-size: 40px;
+
+        &.active {
+          color: $woodland;
+        }
+      }
+    }
+  }
+}

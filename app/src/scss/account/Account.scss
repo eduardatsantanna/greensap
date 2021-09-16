@@ -1,0 +1,38 @@
+@import "../general/index.scss";
+
+#account{
+  background-color: $flash-white;
+  overflow: auto;
+	overflow-x: hidden;
+  height: 100%;
+	width: 100%;
+  padding: 6rem 0rem 0rem 0rem;
+
+  #avatar-container{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0px;
+
+    .avatar{
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 0px;
+
+      .figure-img{
+        margin-bottom: 0px !important;
+      }
+    }
+  }
+
+  #details-container{
+    .title-container{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-container{
+      margin: 30px 0px;
+    }
+  }
+}

@@ -1,0 +1,102 @@
+@import "./general/index.scss";
+
+.content {
+	background-color: $flash-white;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	overflow-x: hidden;
+	padding: 3rem 0.5rem 1rem 0.5rem;
+
+	@include hd{
+		padding: 4rem 2rem 5rem 2rem;
+	}
+
+	@include fhd{
+		padding: 4rem 2rem 6rem 2rem;
+
+		&.dashboard{
+			padding: 4rem 15rem 6rem 15rem;
+		}
+	}
+	
+}
+
+.progress-bar-project{
+	padding-top: 10px;
+	.progress-bar{
+		background-color: transparent;
+		.progress{
+			background-color: rgb(223, 219, 219);
+		}
+	}
+	.current-goal{
+		padding-top: 10px;
+		font-weight: 400;
+		.current{
+			color: $riptide;
+		}
+	}
+}
+
+.loader{
+
+	height: 100%;
+	width: 100%;
+	background-color: $white;
+	position: absolute;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+	
+
+	.logo{
+		font-family: $primary_font;
+		font-weight: 600;
+		font-size: $title4;
+		color: $woodland;
+		margin: 10px;
+
+		@include hd{
+			font-size: $title2;
+		}
+
+	}
+
+	.spinner{
+		display: inline-block;	
+		width: 1.8rem;
+		height: 1.8rem;
+		vertical-align: text-bottom;
+		border: 0.18em solid currentColor;
+		border-right-color: transparent;
+		border-radius: 50%;
+		animation: 0.75s linear infinite spinner-border;
+		margin: 10px;
+		color: $riptide;
+		
+	}
+
+	@include hd{
+
+		.spinner{
+			display: inline-block;	
+			width: 3rem;
+			height: 3rem;
+			vertical-align: text-bottom;
+			border: 0.30em solid currentColor;
+			border-right-color: transparent;
+			border-radius: 50%;
+			animation: 0.75s linear infinite spinner-border;
+			margin: 10px;
+			color: $riptide;
+			
+		}
+
+	}
+
+
+}

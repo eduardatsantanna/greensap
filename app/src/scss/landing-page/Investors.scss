@@ -1,0 +1,120 @@
+@import "../general/index.scss";
+
+.investors {
+	background-color: transparent;
+	color: $smokewhite;
+	min-height: 90vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 20px 0px;
+
+	@include tablet{
+		height: 90vh;
+	}
+
+	@include hd {
+		height: 90vh;
+	}
+
+	@include fhd {
+		height: 92vh;
+		padding: 0px;
+	}
+
+	h1 {
+		font-size: $title3;
+		text-align: center;
+		font-weight: 300;
+		margin-top: 60px;
+
+		@include tablet{
+			font-size: $title2;
+			padding-top: 20px;
+		}
+
+		@include hd {
+			font-size: $title2;
+			padding-top: 20px;
+		}
+
+		@include fhd {
+			padding-top: 100px;
+		}
+	}
+
+	.investors-images {
+		background-color: $smokewhite;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		width: 100%;
+		padding: 20px 40px;
+		margin: 10rem 0px;
+
+		@include hd{
+			
+		}
+
+		.image{
+			width: 100%;
+			display: flex !important;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+
+			.picture {
+				width: 4rem;
+
+				@include tablet{
+					width: 10rem;
+				}
+				@include hd{
+					width: 20rem;
+				}
+			}
+
+		}
+
+
+		@include hd{
+			
+		}
+
+		// .group {
+		// 	display: flex;
+		// 	position: absolute;
+		// 	justify-content: space-around;
+		// 	align-items: center;
+		// 	flex-direction: column;
+		// 	width: 100%;
+		// 	height: 200px;
+
+		// 	@include phone{
+		// 		flex-direction: row;
+		// 		justify-content: center;
+		// 		flex-wrap: wrap;
+		// 	}
+
+		// 	@include tablet{
+		// 		flex-direction: row;
+		// 		justify-content: center;
+		// 	}
+
+		// 	@include hd {
+		// 		flex-direction: row;
+		// 		justify-content: center;
+		// 	}
+
+		// 	img {
+		// 		width: 45%;
+
+		// 		@include tablet{
+		// 			width: 25%;
+		// 		}
+
+		// 		@include hd {
+		// 			width: 20%;
+		// 		}
+		// 	}
+		// }
+	}
+}

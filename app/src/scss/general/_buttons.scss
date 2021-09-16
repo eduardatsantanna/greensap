@@ -1,0 +1,101 @@
+@use "base";
+
+%button-standard {
+	cursor: pointer;
+	font-weight: bold;
+	transition: all 0.5s linear;
+	text-align: center;
+	height: 2rem;
+	padding: 0.25rem 1rem;
+	font-size: $title7;
+
+	@include tablet {
+		font-size: $title5;
+		height: 3rem;
+		padding: 0.5rem 2rem;
+
+		&.scroll {
+			height: 2rem;
+			padding: 0.4rem 1.8rem;
+			font-size: $title6;
+		}
+	}
+
+	@include hd {
+		font-size: $title5;
+		height: 3rem;
+		padding: 0.5rem 2rem;
+
+		&.scroll {
+			height: 2rem;
+			padding: 0.4rem 1.8rem;
+			font-size: $title6;
+		}
+	}
+
+	@include fhd {
+		font-size: $title5;
+		height: 3rem;
+		padding: 0.5rem 2rem;
+
+		&.scroll {
+			height: 2rem;
+			padding: 0.4rem 1.8rem;
+			font-size: $title6;
+		}
+	}
+
+	@include uhd {
+		padding: 5rem;
+		font-size: $title6;
+		height: 3rem;
+		padding: 0.5rem 2rem;
+
+		&.scroll {
+			height: 2rem;
+			padding: 0.4rem 1.8rem;
+			font-size: $title6;
+		}
+	}
+}
+
+@mixin button-rounded($color: base.$smokewhite, $backgound: base.$sushi) {
+	color: $color;
+	background: $backgound;
+	border-radius: 2rem 0.5rem 2rem 2rem;
+
+	@extend %button-standard;
+
+	@include hd {
+		border-radius: 4rem 1rem 4rem 4rem;
+	}
+}
+
+.fill-button {
+	border: none;
+	@include button-rounded(base.$smokewhite, base.$gradient_sushi_riptide);
+}
+
+.unfill-button {
+	@include button-rounded(base.$smokewhite, transparent);
+	position: relative;
+	border: 2px solid base.$sushi;
+
+	@include hd {
+		border: 4px solid base.$sushi;
+
+		&.scroll {
+			border: 1.5px solid base.$sushi;
+		}
+	}
+
+	@include fhd {
+	}
+
+	@include uhd {
+	}
+
+	&:hover {
+		background: base.$gradient_sushi_riptide;
+	}
+}

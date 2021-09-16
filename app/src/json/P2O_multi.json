@@ -1,0 +1,37 @@
+{
+    "@odata.context": "$metadata#NonProfits",
+    "value": [
+        {
+            "Amount": 100,
+            "Unit" : 10,
+            "CostPerUnit": 10,
+            "Currency_code" : "USD",
+            "Sender_ID" : "571355f2-f15a-11eb-9a03-02423c130003",
+            "Recipient_ID" : "0bbbfcaa-1502-433a-959e-8c137176df3d"
+        },
+        {
+            "Amount": 50,
+            "Unit" : 5,
+            "CostPerUnit": 10,
+            "Currency_code" : "USD",
+            "Sender_ID" : "571355f2-f15a-11eb-9a03-02423c130003",
+            "Recipient_ID" : "0bbbfcaa-1502-433a-959e-8c137176df3d"
+        },
+        {
+            "Amount": 50,
+            "Unit" : 10,
+            "CostPerUnit": 5,
+            "Currency_code" : "USD",
+            "Sender_ID" : "571355f2-f15a-11eb-9a03-02423c130003",
+            "Recipient_ID" : "3472e2a4-facb-11eb-9a03-0242ac130003"
+        },
+        {
+            "Amount": 25,
+            "Unit" : 5,
+            "CostPerUnit": 5,
+            "Currency_code" : "USD",
+            "Sender_ID" : "571355f2-f15a-11eb-9a03-02423c130003",
+            "Recipient_ID" : "3472e2a4-facb-11eb-9a03-0242ac130003"
+        }
+]
+}

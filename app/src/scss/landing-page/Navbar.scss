@@ -1,0 +1,360 @@
+@import "../general/index.scss";
+
+.gs-navbar {
+  align-items: center;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Muli", sans-serif;
+  font-weight: 600;
+  position: fixed;
+  top: 0;
+  transition: ease 0.8s;
+  z-index: 400;
+  padding: 8px 32px;
+  width: 100%;
+
+
+  @include tablet {
+    padding: 32px;
+  }
+
+  &.scroll {
+    padding: 8px 32px;
+    background: rgba(1, 20, 2, 0.6);
+  }
+
+  &.page {
+    padding: 8px 14px;
+    background: $white;
+    box-shadow: 0 2px 16px rgba(216, 214, 213, 0.5);
+
+    @include tablet {
+      padding: 8px 32px;
+    }
+
+  }
+
+  .navbar-aside {
+    display: flex;
+    align-items: center;
+
+    .gs-menu-btn {
+      background-color: rgba(1, 20, 2, 0.6);
+      border-radius: 2rem;
+      cursor: pointer;
+      left: 0.5rem;
+      top: 0.5rem;
+      height: 2rem;
+      width: 2rem;
+      z-index: 300;
+      padding: 0.9rem 0.25rem;
+      z-index: 400;
+
+      // @include hd{
+      // 	height: 3rem;
+      // 	width: 3rem;
+      // 	padding: 1.4rem 0.5rem;
+      // }
+
+      .menu-btn__burger {
+        background-color: #fff;
+        border-radius: 0.25rem;
+        box-shadow: 0 0.125rem 0.3rem rgba(251, 101, 47, 0.2);
+        transition: all 0.5s ease-in-out;
+        height: 0.165rem;
+        width: 1.5rem;
+
+        // @include hd{
+        // 	height: 0.25rem;
+        // 	width: 2rem;
+        // 	border-radius: 0.25rem;
+        // }
+
+        &:before,
+        &:after {
+          background-color: #fff;
+          border-radius: 0.5rem;
+          box-shadow: 0 0.125rem 0.3rem rgba(251, 101, 47, 0.2);
+          content: "";
+          transition: all 0.5s ease-in-out;
+          position: absolute;
+          height: 0.165rem;
+          width: 1.5rem;
+          // @include hd{
+          // 	height: 0.25rem;
+          // 	width: 2rem;
+          // }
+        }
+
+        &:before {
+          transform: translateY(-6.5px);
+          // @include hd{
+          // 	transform: translateY(-10px);
+          // }
+        }
+
+        &:after {
+          transform: translateY(6.5px);
+          // @include hd{
+          // 	transform: translateY(10px);
+          // }
+        }
+        &.open {
+          background: transparent;
+          box-shadow: none;
+          //transform: translateX(-50px);
+          &:before {
+            transform: rotate(45deg); //translate(35px, -35px);
+          }
+          &:after {
+            transform: rotate(-45deg); //translate(35px, 35px);
+          }
+        }
+      }
+    }
+  }
+
+  .nav-brand {
+    color: $smokewhite;
+    font-family: $primary_font;
+    display: none;
+    z-index: 300;
+    transition: all 0.5s ease-in-out;
+
+    &.page {
+      font-size: $title4;
+      color: $riptide;
+    }
+
+    @include hd {
+      padding-left: 2rem;
+      font-size: $title3 - 0.5em;
+      display: inherit;
+      &.scroll {
+        font-size: $title4;
+      }
+    }
+  }
+
+  .nav-brand-m {
+    color: $smokewhite;
+    font-family: $primary_font;
+    font-size: $title4;
+    width: 2rem;
+
+    &.page {
+      color: $sushi;
+    }
+
+    @include hd {
+      display: none;
+    }
+  }
+
+  .navbar-menu {
+    transition: all 0.5s ease-in;
+
+    .unfill-button {
+      margin-left: 0.5rem;
+
+      @include hd {
+        margin-left: 1rem;
+      }
+    }
+
+    .user-menu {
+      .profile-img {
+        border: 1px solid $sushi;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 1rem;
+        @include hd {
+          width: 3rem;
+          height: 3rem;
+          border-radius: 1.5rem;
+        }
+      }
+
+      .option-icon {
+        color: $sage;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+//Out of Nav bar
+
+.search{
+	width: 45%;
+	display: block;
+
+	@include phone{
+		display: none;
+	}
+
+	@include tablet{
+		display: block;
+		width: 40%;
+	}
+
+	@include hd{
+		display: block;
+		width: 35%;
+	}
+	position: relative;
+	.search-input{
+		width: 100%;
+		border-radius: 17px;
+		padding-left: 20px;
+		height: 35px;
+		border: 0px;
+		background-color: $flash-white;
+		&:focus{
+			outline: 0px;
+			border-radius: 17px 17px 0px 0px;
+		}
+	}
+
+	.search-icon{
+		position: absolute;
+		top: 10px;
+		right: 20px;
+	}
+
+	.search-list{
+		position: absolute;
+		width: 100%;
+		padding-bottom: 15px;
+		background-color: $flash-white;
+		border-radius: 0px 0px 17px 17px;
+		
+
+		.search-option{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			cursor: pointer;
+			width: 100%;
+			padding: 0px 20px;
+			height: 35px;
+			display: flex;
+			align-items: center;
+			&:hover{
+				background-color: $med_white;
+			}
+		}
+
+	}
+}
+
+.menu-nav {
+  background-color: rgba(1, 20, 2, 0.6);
+  border-radius: 1rem;
+  cursor: pointer;
+  position: absolute;
+  top: 4rem;
+  height: 15rem;
+  width: 0rem;
+  z-index: 300;
+
+  &.landing {
+    left: 1rem;
+  }
+
+  &.page {
+    background-color: $white;
+    box-shadow: 0 0.125rem 1rem rgba(216, 214, 213, 0.5);
+    right: 1rem;
+    height: 10rem;
+    width: 20rem;
+  }
+
+  @include hd {
+    border-radius: 2rem;
+    top: 6rem;
+    height: 20rem;
+
+    &.landing {
+      left: 2rem;
+    }
+
+    &.page {
+      right: 2rem;
+    }
+
+    &.scroll {
+      left: 1.5rem;
+      top: 6rem;
+    }
+  }
+
+  .nav {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    width: 100%;
+    justify-content: space-around;
+    overflow: hidden;
+    position: relative;
+
+    .nav-item {
+      display: inline-block;
+      list-style-type: none;
+      position: relative;
+
+      .nav-link-gs {
+        font-family: $primary_font;
+        color: $white;
+        cursor: pointer;
+        font-size: $title6;
+        font-weight: 500;
+        text-decoration: none;
+        position: relative;
+
+        @include hd {
+          font-size: $title5;
+        }
+
+        &:before {
+          background-color: $black;
+          content: "";
+          height: 0.1rem;
+          left: 0;
+          position: absolute;
+          top: 100%;
+          transition: all 0.5s linear;
+          width: 0%;
+        }
+
+        &:hover::before {
+          background-color: $white;
+          width: 100%;
+        }
+
+        &.active::before {
+          background-color: $white;
+          width: 100%;
+        }
+
+        &.page {
+          color: $woodland;
+
+          &:before {
+            background-color: $white;
+          }
+
+          &:hover::before {
+            background-color: $woodland;
+          }
+
+          &.active::before {
+            background-color: $woodland;
+          }
+        }
+      }
+    }
+  }
+}
