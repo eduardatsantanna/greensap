@@ -1,11 +1,11 @@
 {	
   "welcomeFile": "/index.html",
-  "authenticationMethod": "none",
+  "authenticationMethod": "route",
     "routes":[{
     "source": "/api/(.*)",
     "target": "$1",
     "destination": "srv-binding",
-    "authenticationType": "none"
+    "authenticationType": "xsuaa"
     },{
     "source":"^(.*)",
     "target":"yourHtml5ApplicationId/$1",

@@ -7,6 +7,8 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^5",
+    "@sap/xsenv": "^3.1.1",
+    "@sap/xssec": "^3.2.7",
     "express": "^4",
     "hdb": "^0.18.3"
   },
@@ -45,6 +47,10 @@
     "requires": {
       "db": {
         "kind": "hana"
+      },
+      "uaa": {
+        "kind": "xsuaa",
+        "credentials": {}
       }
     },
     "hana": {
