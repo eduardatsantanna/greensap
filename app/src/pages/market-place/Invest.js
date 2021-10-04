@@ -22,14 +22,19 @@ export const Invest = ({ show, handleClose, handleShow, project }) => {
     });
 
     const {
-        TreeCostAverage: treeCost,
-        CarbonOffsetAverage: carbonPerTree,
-        CarbonOffsetSymbol: carbonSymbol,
         ID: recipientId,
         Owner_ID: ownerId,
+        analytics
 
     } = project;
 
+    const carbonSymbol = "kg";
+    
+    const {
+        sowCost: treeCost,
+        co2AverageCost: carbonPerTree,
+    } = analytics;
+    console.log(project);
     const kpi = {
         costPerTree: treeCost,
         carbonOffsetPerTree: carbonPerTree,

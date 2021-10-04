@@ -34,7 +34,7 @@ export const Compensation = ({ compensation, investForm, count, kpi, costCompens
             </div>
             <div className="invest-first-steep">
                 <div className="text-option">
-                    {compensation.section === "co2" && <><p>Choose your {carbonOffsetSymbol} tons of CO<sub>2</sub> offset</p></>}
+                    {compensation.section === "co2" && <><p>Choose your {carbonOffsetSymbol} of CO<sub>2</sub> offset</p></>}
                     {compensation.section === "reforest" && <><p>Choose your trees quantity</p></>}
 
                 </div>
@@ -53,7 +53,7 @@ export const Compensation = ({ compensation, investForm, count, kpi, costCompens
 
                 <div className="totals">
                     {compensation.section === "co2" && <p>Estimated trees planted</p>}
-                    {compensation.section === "reforest" && <p>Co<sub>2</sub> neutralization in tons {carbonOffsetSymbol}</p>}
+                    {compensation.section === "reforest" && <p>Co<sub>2</sub> neutralization in tons</p>}
                     <p>{isNaN(estimated)?(0).toFixed(1):estimated.toFixed(1)}</p>
                 </div>
 

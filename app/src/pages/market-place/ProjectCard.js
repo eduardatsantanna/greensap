@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { ProgressBarProject } from "@/components/progress";
 import { InvestButton } from "./";
@@ -6,50 +6,31 @@ import { useHistory } from "react-router";
 import { useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faShareAlt } from "@fortawesome/free-solid-svg-icons";
-import { projectsService } from "@/services";
+import { MarketplaceContext } from "@/context";
 
-export const ProjectCard = ({ project, id,ownerId, title, ngo, plantationDensity, picture, totalPlantationArea, location, description, treeCostAverage, carbonOffsetAverage, unitCarbon, urlImg = "/assets/ngo-project-1.jpeg" }) => {
-
-    const goalT = parseInt(totalPlantationArea / plantationDensity);
-  
+export const ProjectCard = ({ project }) => {
+    const { projectsRed } = useContext(MarketplaceContext);
+    const [projects, dispatch] = projectsRed;
     const history = useHistory();
     const { url } = useRouteMatch();
-    const treeCost = (treeCostAverage /  carbonOffsetAverage).toFixed(2);
 
     const seeDetails = () => {
-        history.push(`${url}/project?id=${id}`);
-      
-    }  
+        dispatch({ type: 'loading' });
+        dispatch({ type: 'finished', payload: [project] });
+        history.push(`${url}/project?id=${project.id}`);
+    }
 
-    const [invest, setInvest] = useState({
-        Investments: 0,
-        Tree_cost: 0,
-        Trees: 0,});
+    const {analytics} = project;
 
     useEffect(() => {
-        
-
-        projectsService.getProjectInvestment(id).then(
-            invest => {
-                setInvest(invest);
-            },
-            error => {
-            }
-        );
-
-
         return () => {
-            
         }
     }, [])
 
     return (
         <Card className="project-card" onClick={() => { seeDetails() }}>
-            <Card.Img src={picture?`${process.env.PUBLIC_URL}${picture}`:`${process.env.PUBLIC_URL}/assets/ngo-project-1.jpeg`}className="banner-img" style={{ objectFit: "cover" }} alt="project ngo" />
-
-
+            <Card.Img src={project.banner} className="banner-img" style={{ objectFit: "cover" }} alt="project ngo" />
             <Card.ImgOverlay className="card-body  p-0">
-
                 <div className="project-header">
                     <div className="icons">
                         <div className="icon like">
@@ -61,12 +42,8 @@ export const ProjectCard = ({ project, id,ownerId, title, ngo, plantationDensity
                     </div>
                     <div className="name-sponsors">
                         <p className="project-name">
-                            {title} <span className="ngo-name">by <a className="" href="#/">{ngo}</a></span>
+                            {project.name}
                         </p>
-                        {/* <p className="location">
-                            {location}
-                        </p> */}
-
                         <div className="sponsors">
                             <img src={`${process.env.PUBLIC_URL}/assets/example-profile-img/airbnb.jpg`} alt="Airbnb logo" className="sponsor-badge"></img>
                             <img src={`${process.env.PUBLIC_URL}/assets/example-profile-img/facebook.png`} alt="Facebook logo" className="sponsor-badge"></img>
@@ -81,20 +58,25 @@ export const ProjectCard = ({ project, id,ownerId, title, ngo, plantationDensity
                         <div className="body">
 
                             <div className="project-desc">
-                                {description}
+                                {project.description && project.description.map(
+                                    (desc, i) => (
+                                        <p key={i}>{desc}</p>
+                                    )
+                                )
+                                }
                             </div>
 
 
                             <div className="project-kpi">
-                                <InvestButton project={project}/>
-                                <p className="tree-cost">${treeCostAverage} per tree</p>
-                                <p className="tree-co2">{carbonOffsetAverage} {unitCarbon} CO<sub>2</sub> per tree</p>
-                                <p className="co2-cost">${treeCost} per {unitCarbon} CO<sub>2</sub></p>
+                                <InvestButton project={project} />
+                                <p className="tree-cost">${analytics.sowCost.toFixed(2)} per tree</p>
+                                <p className="tree-co2">{analytics.offsetAverageTCo2.toFixed(2)} kg CO<sub>2</sub> per tree</p>
+                                <p className="co2-cost">${analytics.co2AverageCost.toFixed(2)} per kg CO<sub>2</sub></p>
                             </div>
 
                         </div>
 
-                        <ProgressBarProject currentT={invest.Trees} goalT={goalT} />
+                        <ProgressBarProject currentT={analytics.totalTreesPlanted} goalT={analytics.totalPlantingCapacity}/>
 
                     </div>
                 </div>

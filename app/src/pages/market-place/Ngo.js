@@ -3,13 +3,14 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import Slider from "react-slick";
 import { breakText } from "@/helpers";
 import { TotalCount } from '@/components/utils';
-import { ngoService } from "@/services";
+import { dashboardService } from "@/services";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 
 export const Ngo = ({ ngos }) => {
     const { url } = useRouteMatch();
+    console.log(ngos);
     const ngo = ngos.data[0];
     const [summary, setSummary] = useState({
         Investments: -1,
@@ -24,11 +25,12 @@ export const Ngo = ({ ngos }) => {
     }
 
     const goProfile = () => {
-        history.push(`/profile?id=${ngo.ID}`)
+        history.push(`/profile?id=${ngo.id}`)
     }
 
     useEffect(() => {
-        ngoService.getNGOInvestment(ngo.ID).then(data => setSummary(data));
+        dashboardService.getAnalytics('nonprofit', ngo.id).then(
+            data => setSummary({...summary, Investments: data.totalNet, Trees:data.treesPlanted, Tree_cost:data.costAverage}));
     }, []);
 
 
@@ -39,10 +41,10 @@ export const Ngo = ({ ngos }) => {
             </button>
             <div className="ngos-profile profile">
 
-                <div className="ngo-pro">
-                    <img className="picture" src={`${process.env.PUBLIC_URL}${ngo.DisplayPicture}`} alt="Profile NGO img" />
+                <div className="ngo-pro" onClick={goProfile}>
+                    <img className="picture" src={ngo.img} alt="Profile NGO img" />
                     <div className="name">
-                        <p >{breakText(ngo.DisplayName, 30)}</p>
+                        <p >{breakText(ngo.name, 30)}</p>
                     </div>
                 </div>
 
@@ -52,10 +54,6 @@ export const Ngo = ({ ngos }) => {
                         {summary.Trees === -1 ? null : <TotalCount title="Trees Planted" number={summary.Trees} simbol="" delay={1000} />}
                         {summary.Tree_cost === -1 ? null : <TotalCount title="Tree Cost" number={summary.Tree_cost} simbol="$" delay={1000} />}
                     </div>
-                </div>
-
-                <div className="profile-option">
-                    <button className="fill-button profile-btn" onClick={goProfile}>View Profile</button>
                 </div>
 
             </div>

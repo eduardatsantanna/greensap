@@ -40,6 +40,7 @@
   z-index: 300;
 
   @include tablet {
+    position: relative;
     flex-direction: row;
     top: 40px;
     bottom: auto;
@@ -90,7 +91,7 @@
   z-index: 200;
   @include tablet {
     width: 450px;
-    margin-top: 200px;
+    margin-top: 45px;
     margin-left: 40px;
   }
   .ngos-projects {
@@ -99,11 +100,11 @@
     }
     width: 100%;
     z-index: 100;
-    margin-top: 60px;
   }
 }
 
 .ngo-pro {
+  cursor: pointer;
   width: 6rem;
   font-size: $title4 - 0.3em;
   padding: 0.5rem;
@@ -150,10 +151,10 @@
 
 .project-card {
   @extend %cards;
-  margin-top: 0.2rem;
+  margin-top: 3.2px;
   cursor: pointer;
   .banner-img {
-    height: 13rem;
+    height: 208px;
   }
 
   .card-body {
@@ -236,12 +237,13 @@
           justify-content: space-between;
 
           .project-desc {
+            width: 70%;
             font-size: $title6;
             text-align: justify;
           }
 
           .project-kpi {
-            width: 100%;
+            width: 35%;
             height: max-content;
             display: flex;
             flex-direction: column;

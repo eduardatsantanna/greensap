@@ -1,43 +1,33 @@
 
 import "@/scss/dashboard/index.scss";
 import { Sumary, Analytics, Main } from "./";
-import { BubbleMap } from "@/components/map";
 import React, { useEffect, useState } from "react";
 import { LoadContent } from "@/pages/general";
-import { authenticationService, ngoService } from "@/services";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import {useQuery} from "@/hooks";
+import { dashboardService } from "../../services";
 
 export const Dashboard = () => {
-
-
-    const {pathname} = useLocation();
-    const id = useQuery("id");
     const [user, setUser] = useState(null);
+    const history = useHistory();
+    const { pathname } = useLocation();
+    const id = useQuery("id");
+    const isDashboard = pathname === '/dashboard';
     
     useEffect(() => {
-        if(!id){
-            setUser(authenticationService.currentUserValue);
-        }else {
-            ngoService.getById(id).then(
-                ngo=>{
-                    setUser(ngo[0]);
-                },
-                error=>{
-                    setUser(null);
-                }
-            )
-        }
-    }, [id]);
+        dashboardService.getUser(isDashboard, id)
+            .then(user => setUser(user))
+            .catch(err => history.push('/'));
+    }, []);
 
     return (
         <LoadContent>
             {user &&
                 <div className="content dashboard">
                     <div className="main-content">
-                        <Main {...user} />
-                        <Sumary {...user} />
-                        <Analytics {...user}/>
+                        <Main user={user} />
+                        <Sumary user={user} isDashboard={isDashboard} />
+                        <Analytics user={user} />
                     </div>
                 </div>
             }

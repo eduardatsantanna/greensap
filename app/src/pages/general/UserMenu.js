@@ -45,7 +45,7 @@ export const UserMenu = ({user, onLogOut}) => {
 
   return (
     <div className="user-menu">
-      <img className="profile-img" src={`${process.env.PUBLIC_URL}${user.DisplayPicture}`} alt="Profile" />
+      <img className="profile-img" src={user.img} alt="Profile" />
       <button ref={ref} className="btn btn-gray" onClick={onOpen}>
         <FontAwesomeIcon icon={show ? faCaretDown : faCaretUp} className="option-icon" />
       </button>

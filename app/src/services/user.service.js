@@ -1,8 +1,5 @@
 import config from "configFake";
 import { authHeader, handleResponse } from "@/helpers";
-import { authenticationService } from "./";
-
-const currentUser = authenticationService.currentUserValue;
 
 export const userService = {
     getAll,
@@ -18,7 +15,9 @@ function getAll() {
 
 function getCountries() {
     const requestOptions = { method: "GET", headers: authHeader() };
-    return fetch(`${config.apiUrl}/countries`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/Countries`, requestOptions).then(handleResponse).then(
+        resp => resp.value
+    );
 }
 
 function getById(id) {

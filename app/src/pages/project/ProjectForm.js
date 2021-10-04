@@ -1,106 +1,166 @@
-import { useState } from "react";
-import { Card, Form, Col, Row } from 'react-bootstrap';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons"
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Card, Alert, ProgressBar, Form, Col, Button } from 'react-bootstrap';
+import XLSX from 'xlsx';
+import { useForm } from 'react-hook-form';
+import { dashboardService } from "@/services";
+
+import rawContries from '@/json/Countries2.json';
+import rawCurrencies from '@/json/Currencies.json';
 
 export const ProjectForm = (props) => {
-  const [update, setUpdate] = useState({ loading: false, error: null });
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [coordenates, setCoordenates] = useState([{lat: 0, lon: 0}])
-  const [cost, setCost] = useState('');
-  const [target, setTarget] = useState('');
-  const [picture, setPicture] = useState('');
+  const history = useHistory();
+  const [error, setError] = useState(null);
+  const [fileLabel, setFileLabel] = useState('');
+  const [boundaries, setBoundaries] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const { register, formState: { errors }, handleSubmit } = useForm();
 
-  const onAddCoordenates = () => {
-        const newCoordenates = coordenates.concat([{ lat: 0, lon: 0 }]);
-        setCoordenates(newCoordenates);
-    };
+  const countries = rawContries['countries'];
+  const currencies = rawCurrencies['currencies'];
 
-    const onDeleteCoordenates = (pos) => {
-        if (coordenates.length > 1) {
-            const newCoordenates = coordenates.filter((coor, i) => pos !== i);
-            setCoordenates(newCoordenates);
+  const buttonState = (progress) => {
+    if (progress === 0) {
+      return 'Submit';
+    } else if (progress === 10) {
+      return 'Creating project...';
+    } else if (progress === 33) {
+      return 'Creating boundaries...';
+    } else if (progress === 66) {
+      return 'Creating costs...';
+    } else {
+      return 'Go Back';
+    }
+  };
+
+  const processData = (data) => {
+    try {
+      if (error !== null) {
+        setError(null);
+      }
+      const dataStringLines = data.split(/\r\n|\n/);
+      const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+      
+      const boundaries = [];
+      for (let i = 1; i < dataStringLines.length; i++) {
+        const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+        if (headers && row.length === headers.length) {
+          const obj = {
+            Index: parseInt(row[0]) ?? 0,
+            Coordinate_Latitude: parseFloat(row[1]) ?? 0,
+            Coordinate_Longitude: parseFloat(row[2]) ?? 0,
+          };
+
+          const idx = Object.values(obj).findIndex(val => isNaN(val));
+          if (idx !== -1) {
+            throw Error();
+          } else {
+            boundaries.push(obj);  
+          }
         }
+      }
+  
+      return boundaries;
+    } catch (e) {
+      setError('There was an error with your CSV file.');
+      return [];
+    }
+  };
+
+  const onSubmitCoordenates = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const bstr = ev.target.result;
+      const wb = XLSX.read(bstr, { type: 'binary' });
+
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+
+      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+      setBoundaries(processData(data));
     };
 
-    const onUpdateCoordenates = (pos, newCoors) => {
-        const newCoordenates = coordenates.map((coors, i) => {
-            if (pos === i) {
-                return Object.assign(coors, newCoors);
-            }
-            return coors;
-        });
-        setCoordenates(newCoordenates);
-    };
-  
-  
+    if (typeof file === 'object') {
+      reader.readAsBinaryString(file);
+      setFileLabel(file.name);
+    }
+
+  };
+
+  const onSubmit = async (data) => {
+
+    if (progress === 100) {
+      return history.push('/dashboard');
+    }
+
+    if (error == null && boundaries.length > 0) {
+      setProgress(10);
+      const id = await dashboardService.createProject(data, boundaries);
+      setProgress(33);
+
+      await dashboardService.createBoundaries(id, boundaries);
+      setProgress(66);
+
+      // await dashboardService.createCost(id, cost);
+      setProgress(100);
+    } else {
+      setError('Boundaries file is required.');
+    }
+  };
 
   return (
     <Card className="form-container">
       <Card.Title className="form-title">{props.project ? 'Edit Project' : 'Add Project'}</Card.Title>
       <Card.Body>
-        <Form>
+        <ProgressBar now={progress} />
+        <div style={{ margin: '20px 0px' }} />
+        <Alert show={error !== null} variant='danger' onClose={() => setError(null)} dismissible>
+          {error}
+        </Alert>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-2" size="sm">
             <Form.Label>Project Name</Form.Label>
-            <Form.Control size="sm" value={name} onChange={e => setName(e.target.value)} />
+            <Form.Control
+              size="sm"
+              isInvalid={errors.name}
+              {...register('name', { required: "Project name is required" })}
+            />
+            {errors.name && (
+              <Form.Control.Feedback type="invalid">
+                {errors.name.message}
+              </Form.Control.Feedback>
+            )}
           </Form.Group>
           <Form.Group className="mb-2" size="sm">
             <Form.Label>Description</Form.Label>
-            <Form.Control size="sm" as="textarea" rows={3} value={description} onChange={e => setDescription(e.target.value)} />
-          </Form.Group>
-          {/* <Row>
-            <Col xs={8} sm={10}>Coordinates</Col>
-            <Col xs={4} sm={2} style={{display: 'flex', justifyContent: 'flex-end'}}>
-              <div className="btn btn-light" onClick={onAddCoordenates}>
-                <FontAwesomeIcon icon={faPlusCircle} className="icon text-success" />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={5}>
-              <Form.Label>Longitude</Form.Label>
-            </Col>
-            <Col xs={5}>
-              <Form.Label>Latitude</Form.Label>
-            </Col>
-            <Col xs={2}></Col>
-          </Row>
-          {coordenates.map((item, pos) => (
-            <Row key={pos}>
-              <Form.Group as={Col} xs={4} sm={5}>
-                    <Form.Control size="sm" type="number" value={item.lon} onChange={e => onUpdateCoordenates(pos, {lon: e.target.value, lat: item.lat})} />
-                </Form.Group >
-                <Form.Group as={Col} xs={4} sm={5}>
-                    <Form.Control size="sm" type="number" value={item.lat} onChange={e => onUpdateCoordenates(pos, {lon: item.lon, lat: e.target.value})} />
-                </Form.Group >
-                <Form.Group as={Col} xs={4} sm={2} style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <div className="btn btn-light" onClick={e => onDeleteCoordenates(pos)}>
-                        <FontAwesomeIcon icon={faTrashAlt} className="icon text-danger " />
-                    </div>
-                </Form.Group >
-            </Row>
-          ))} */}
-          <Form.Group className="mb-2" size="sm">
-            <Form.Label>Coordinates (CSV Format)</Form.Label>
-            <Form.File
-              id="custom-file-translate-scss"
-              label=""
-              lang="en"
-              custom
+            <Form.Control
+              size="sm"
+              as="textarea"
+              isInvalid={errors.description}
+              rows={3}
+              {...register('description', { required: "Project description is required" })}
             />
-          </Form.Group>
-          <Form.Group className="mb-2 row" size="sm">
-            <Col>
-              <Form.Label>Tree Cost</Form.Label>
-              <Form.Control size="sm" type="text" value={cost} onChange={e => setCost(e.target.value)} />
-            </Col>
-            <Col>
-              <Form.Label>Target</Form.Label>
-              <Form.Control size="sm" type="text" value={target} onChange={e => setTarget(e.target.value)} />
-            </Col>
+            {errors.description && (
+              <Form.Control.Feedback type="invalid">
+                {errors.description.message}
+              </Form.Control.Feedback>
+            )}
           </Form.Group>
           <Form.Group className="mb-2" size="sm">
+            <Form.Label>Country</Form.Label>
+            <Form.Control as='select' size='sm' isInvalid={errors.country} {...register('country', { required: "Country is required" })}>
+              {countries.map((country) => (
+                <option key={country['code']} value={country['code']}>{country['name']}</option>
+              ))}
+            </Form.Control>
+            {errors.country && (
+              <Form.Control.Feedback type="invalid">
+                {errors.country.message}
+              </Form.Control.Feedback>
+            )}
+          </Form.Group>
+          {/* <Form.Group className="mb-2" size="sm">
             <Form.Label>Banner Picture</Form.Label>
             <Form.File
               id="custom-file-translate-scss"
@@ -108,14 +168,97 @@ export const ProjectForm = (props) => {
               lang="en"
               custom
             />
+          </Form.Group> */}
+          <Form.Group className="mb-2 row" size="sm">
+            <Col xs={2}>
+              <Form.Label>Currency</Form.Label>
+              <Form.Control as='select' size='sm' isInvalid={errors.country} {...register('currency', { required: "Currency is required" })}>
+                {currencies.map((currency) => (
+                  <option key={currency['code']} value={currency['code']}>{currency['code']}</option>
+                ))}
+              </Form.Control>
+              {errors.currency && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.currency.message}
+                </Form.Control.Feedback>
+              )}
+            </Col>
+            <Col xs={5}>
+              <Form.Label>Tree Cost</Form.Label>
+              <Form.Control
+                size="sm"
+                type="number"
+                isInvalid={errors.treeCost}
+                {...register('treeCost', { required: "Tree cost is required"})}
+              />
+              {errors.treeCost && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.treeCost.message}
+                </Form.Control.Feedback>
+              )}
+            </Col>
+            <Col xs={5}>
+              <Form.Label>Worker Count</Form.Label>
+              <Form.Control
+                size="sm"
+                type="number"
+                isInvalid={errors.workerCount}
+                {...register('workerCount', { required: "Worker count is required"})}
+              />
+              {errors.workerCount && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.workerCount.message}
+                </Form.Control.Feedback>
+              )}
+            </Col>
           </Form.Group>
+          <Form.Group className="mb-2 row" size="sm">
+            <Col>
+              <Form.Label>Planting Area (&#13217;)</Form.Label>
+              <Form.Control
+                size="sm"
+                type="number"
+                isInvalid={errors.plantingArea}
+                {...register('plantingArea', { required: "Planting area is required" })}
+              />
+              {errors.plantingArea && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.plantingArea.message}
+                </Form.Control.Feedback>
+              )}
+            </Col>
+            <Col>
+              <Form.Label>Planting Density (&#13217;)</Form.Label>
+              <Form.Control
+                size="sm"
+                type="text"
+                isInvalid={errors.plantingDensity}
+                {...register('plantingDensity', { required: "Planting density is required"})}
+              />
+              {errors.plantingDensity && (
+                <Form.Control.Feedback type="invalid">
+                  {errors.plantingDensity.message}
+                </Form.Control.Feedback>
+              )}
+            </Col>
+          </Form.Group>
+          <Form.Group controlId="formFile" className="mb-2" size="sm">
+            <Form.Label>Coordinates (CSV Format)</Form.Label>
+            <Form.File
+              id="custom-file-translate-scss"
+              label={fileLabel}
+              custom
+              type="file"
+              accept=".csv,.xlsx,.xls"
+              onChange={onSubmitCoordenates}
+            />
+          </Form.Group>
+          <div style={{margin: '20px 0px'}}/>
+          <Button variant="primary" className="btn btn-success w-100" type="submit" disabled={progress > 0 && progress < 100}>
+            {buttonState(progress)}
+          </Button>
         </Form>
       </Card.Body>
-      <Card.Footer>
-        <div className="d-grid gap-2">
-          <button className={`btn btn-success w-100`}>Save</button>
-        </div>
-      </Card.Footer>
     </Card>
   );
 }

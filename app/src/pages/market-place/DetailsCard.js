@@ -26,6 +26,8 @@ import { MarketplaceContext } from "@/context";
 
 export const DetailsCard = ({project}) => {
 
+    const {analytics, owner} = project;
+    
 
     const [invest, setInvest] = useState({
         Investments: 0,
@@ -39,59 +41,35 @@ export const DetailsCard = ({project}) => {
     }
     const { ngosRed } = useContext(MarketplaceContext);
     const [ngos ,dispatch] = ngosRed;
-
-
-    const {
-        DisplayPicture: picture,
-        DisplayName: name,
-        PlantationDensity: plantationDensity,
-        TotalPlantationArea: plantationArea,
-        Description: about,
-        TreeCostAverage: treeCost,
-        CarbonOffsetAverage: carbonPerTree,
-        WorkerCount: workers,
-        CarbonOffsetSymbol: carbonUnit,
-        Country_code: location,
-        SiteOwnership: ownerShip
-
-    } = project;
-    const {
-        DisplayName: ngo,
-        EmailAddress: email,
-        WebsiteURL: webSite
-    } = project.Owner;
-    const goalT = parseInt(plantationArea / plantationDensity);
-    const co2Cost = (treeCost / carbonPerTree).toFixed(2);
     const currentT = 0;
     const number = 740;
-    const co2Absortion = carbonPerTree * goalT;
 
     useEffect(() => {
         
-        dispatch({ type: 'finished', payload: [project.Owner] });
-
-        projectsService.getProjectInvestment(project.ID).then(
-            invest => {
-                setInvest(invest);
-            },
-            error => {
-            }
-        );
-
-
-        return () => {
-            setInvest({});
+        if(!ngos.data || ngos.data.length !== 1){
+        dispatch({type: 'loading'});
+        dispatch({ type: 'finished', payload: [project.owner] });
         }
+        // projectsService.getProjectInvestment(project.ID).then(
+        //     invest => {
+        //         setInvest(invest);
+        //     },
+        //     error => {
+        //     }
+        // );
+        // return () => {
+        //     setInvest({});
+        // }
     }, [])
 
 
     return (
         <>
-        <Card.Img src={picture?`${process.env.PUBLIC_URL}${picture}`:`${process.env.PUBLIC_URL}/assets/ngo-project-1.jpeg`} variant="top" className="banner-img" style={{ objectFit: "cover" }} alt="project ngo" />
+        <Card.Img src={project.banner} variant="top" className="banner-img" style={{ objectFit: "cover" }} alt="project ngo" />
             <Card.ImgOverlay className="banner-img">
-            <button className="btn float-left pl-0">
+            {/* <button className="btn float-left pl-0">
                 <FontAwesomeIcon className="text-white back-icon" icon={faArrowLeft} onClick={goBack} />
-            </button>
+            </button> */}
                 <div className="sponsors">
                     <img src={`${process.env.PUBLIC_URL}/assets/example-profile-img/airbnb.jpg`} alt="Airbnb logo" className="sponsor-badge"></img>
                     <img src={`${process.env.PUBLIC_URL}/assets/example-profile-img/facebook.png`} alt="Facebook logo" className="sponsor-badge"></img>
@@ -105,10 +83,10 @@ export const DetailsCard = ({project}) => {
                     <div className="name-location">
                         <div>
                             <p className="project-name">
-                                {name}  <a className="ngo-name" href="#/">By {ngo}</a>
+                                {project.name}
                             </p>
                             <div className="d-flex align-items-center pt-2">
-                                <FlatIcon><img src={LocationIcon} alt="icono agenda" style={{ width: "100%" }} /></FlatIcon><p className="desc" style={{ fontWeight: "600" }}>{location}</p>
+                                <FlatIcon><img src={LocationIcon} alt="icono agenda" style={{ width: "100%" }} /></FlatIcon><p className="desc" style={{ fontWeight: "600" }}>{project.countryCode}</p>
                             </div>
                         </div>
 
@@ -118,44 +96,52 @@ export const DetailsCard = ({project}) => {
                     </div>
                     <div className="project-kpi">
                         <InvestButton project={project}/>
-                        <p className="tree-cost">${treeCost} USD per tree</p>
+                        {/* <p className="tree-cost">${treeCost} USD per tree</p>
                         <p className="tree-co2">{carbonPerTree} {carbonUnit} CO<sub>2</sub> per tree</p>
-                        <p className="co2-cost">${co2Cost} USD per {carbonUnit} CO<sub>2</sub></p>
+                        <p className="co2-cost">${co2Cost} USD per {carbonUnit} CO<sub>2</sub></p> */}
                     </div>
                 </div>
 
                 <div className="project-details-about">
                     <h1 className="title">About</h1>
-                    <p className="about-desc">
-                        {about}
-                    </p>
+                    
+                       {project.description&&project.description.map((projectDesc, i) =>(
+                           <p key={i} className="about-desc">
+                               {projectDesc}
+                          </p>
+                       )
+                       )}
+                   
                     <div className="project-kpis">
                         <div className="kpi">
-                            <FlatIcon><img src={TreeIcon} alt="icono agenda" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Target Trees Count: <span className="value"> {prefixNum(number, goalT)}</span></p>
+                            <FlatIcon><img src={TreeIcon} alt="tree icon" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Target Trees Count: <span className="value"> {prefixNum(number, project.goalT)}</span></p>
                         </div>
                         <div className="kpi">
-                            <FlatIcon><img src={CloudIcon} alt="icono agenda" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Estimated CO<sub>2</sub> Absortion: <span className="value">{prefixNum(number, co2Absortion)} {carbonUnit}</span></p>
+                            <FlatIcon><img src={CloudIcon} alt="cloud icon" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Estimated CO<sub>2</sub> Absortion: <span className="value">
+                                {prefixNum(number, project.offsetAverageTCo2)} tons
+                              
+                                </span></p>
                         </div>
                         <div className="kpi">
-                            <FlatIcon><img src={AreaGraphIcon} alt="icono agenda" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Plantation Area: <span className="value">{prefixNum(number, plantationArea)} ha</span></p>
+                            <FlatIcon><img src={AreaGraphIcon} alt="area icon" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Plantation Area: <span className="value">{prefixNum(number, project.plantingArea)} ha</span></p>
                         </div>
                         <div className="kpi">
-                            <FlatIcon><img src={WorldEnvIcon} alt="icono agenda" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Planting Density: <span className="value">{prefixNum(number, plantationDensity)}</span></p>
+                            <FlatIcon><img src={WorldEnvIcon} alt="worldenv icon" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Planting Density: <span className="value">{prefixNum(number, project.plantingDensity)}</span></p>
                         </div>
                         <div className="kpi">
-                            <FlatIcon><img src={SavePlanetIcon} alt="icono agenda" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Workers: <span className="value">{workers}</span></p>
+                            <FlatIcon><img src={SavePlanetIcon} alt="saveplanet icon" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Workers: <span className="value">{project.workerCount}</span></p>
                         </div>
-                        {/* <div className="kpi">
-                            <FlatIcon><img src={MoneyIcon} alt="icono agenda" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Total Investmen: <span className="value">{`$120M USD`}</span></p>
-                        </div> */}
+                        <div className="kpi">
+                            <FlatIcon><img src={PersonIcon} alt="person icon" style={{ width: "100%", marginRight: "10px" }} /></FlatIcon><p className="desc">Landsite Ownership: <span className="value">{project.ownerShip}</span></p>
+                        </div>
                     </div>
-                    <div className="project-details-about">
+                    {/* <div className="project-details-about">
                         <h1 className="title">Landsite Ownership</h1>
                         <p>
                             {ownerShip}
                         </p>
 
-                    </div>
+                    </div> */}
                     {/* <div className="project-details-about">
                         <h1 className="title">Planting Season</h1>
                         <p>
@@ -164,11 +150,11 @@ export const DetailsCard = ({project}) => {
                     </div> */}
 
                     <div className="project-details-about">
-                        <h1 className="title">Project"s Progress</h1>
+                        <h1 className="title">Project's Progress</h1>
                         <div className="project-progress">
 
                             <div className="circular-progress mt-4">
-                                <CircularProgress currentT={invest.Trees} goalT={goalT} number={number} />
+                                <CircularProgress currentT={analytics.totalTreesPlanted} goalT={analytics.totalPlantingCapacity} number={number} />
                             </div>
                             <div className="progress-info">
                                 <div className="total-count">
@@ -176,10 +162,10 @@ export const DetailsCard = ({project}) => {
                                     <p className="title">Total Investments</p>
                                 </div>
 
-                                <div className="total-count pt-4">
+                                {/* <div className="total-count pt-4">
                                     <p className="counter">{invest.Trees}</p>
                                     <div className="title">Trees planted</div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -189,13 +175,10 @@ export const DetailsCard = ({project}) => {
                     <h1 className="title">Contact</h1>
                     <div className="project-kpis">
                         <div className="kpi">
-                            <FlatIcon><img src={PersonIcon} alt="icono agenda" style={{ width: "100%" }} /></FlatIcon><p className="desc ">Visit Profile</p>
+                            <FlatIcon><img src={WebSiteIcon} alt="icono agenda" style={{ width: "100%" }} /></FlatIcon><p className="desc"><a href={owner.webpage}>{owner.webpage}</a></p>
                         </div>
                         <div className="kpi">
-                            <FlatIcon><img src={WebSiteIcon} alt="icono agenda" style={{ width: "100%" }} /></FlatIcon><p className="desc">{webSite}</p>
-                        </div>
-                        <div className="kpi">
-                            <FlatIcon><img src={AgendaIcon} alt="icono agenda" style={{ width: "100%" }} /></FlatIcon><p className="desc">{email}</p>
+                            <FlatIcon><img src={AgendaIcon} alt="icono agenda" style={{ width: "100%" }} /></FlatIcon><p className="desc">{owner.email}</p>
                         </div>
                     </div>
                 </div>

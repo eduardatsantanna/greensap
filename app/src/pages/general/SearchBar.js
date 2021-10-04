@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, memo } from 'react'
 import { useHistory } from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useOutsideFocus, useQuery } from "@/hooks";
 
-export const SearchBar = () => {
+export const SearchBar = memo(() => {
+    console.log("Aqui");
     const [search, setSearch] = useState('');
     const [searchHistory, setSearchHistory] = useState([]);
     const [toggleList, setToggleList] = useState(false);
@@ -60,7 +61,7 @@ export const SearchBar = () => {
         <div className="search">
             <input
                 ref={ref}
-                className="search-input"
+                className={`search-input ${toggleList ? 'focused' : ''}`}
                 placeholder="Search a project..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -69,7 +70,7 @@ export const SearchBar = () => {
             />
             <FontAwesomeIcon className="search-icon" icon={faSearch} onClick={onSearch} />
 
-            {toggleList && (
+            {toggleList && searchHistory.length > 0 && (
                 <ul className="search-list">
                     {searchHistory.map((item, i) => (
                         <li key={i} className="search-option">
@@ -83,4 +84,4 @@ export const SearchBar = () => {
             )}
         </div>
     )
-}
+});

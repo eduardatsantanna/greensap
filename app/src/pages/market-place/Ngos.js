@@ -2,10 +2,13 @@ import React, { useContext, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import Slider from "react-slick";
 import { breakText } from "@/helpers";
+import {MarketplaceContext} from "@/context";
 
 export const Ngos = ({ ngos }) => {
     const history = useHistory();
     const { url } = useRouteMatch();
+    const { ngosRed } = useContext(MarketplaceContext);
+    const [ngoData ,dispatch] = ngosRed;
 
     useEffect(() => {
 
@@ -20,19 +23,22 @@ export const Ngos = ({ ngos }) => {
         slidesToShow: 4
     };
 
-    const onFilterByNgos = (ngosId) => {
-        history.push(`${url}?id=${ngosId}`);
+    const onFilterByNgos = (ngo) => {
+        dispatch({ type: 'loading' });
+        dispatch({ type: 'finished', payload: [ngo] });
+        history.push(`${url}?id=${ngo.id}`);
     };
-    console.log(ngos);
+    
+
     return (
         <div className="ngos-profile">
             <Slider {...settings}>
                 {ngos.data && ngos.data.map((ngo, i) => {
                     return (
-                        <div key={ngo.DisplayName} className="ngo-pro ngos" onClick={() => onFilterByNgos(ngo.ID)}>
-                            <img className="picture" src={`${process.env.PUBLIC_URL}${ngo.DisplayPicture}`} alt="Profile NGO img" />
+                        <div key={ngo.id} className="ngo-pro ngos" onClick={() => onFilterByNgos(ngo)}>
+                            <img className="picture" src={ngo.img} alt="Profile NGO img" />
                             <div className="name">
-                                <p >{breakText(ngo.DisplayName, 30)}</p>
+                                <p >{breakText(ngo.name, 30)}</p>
                             </div>
                         </div>
                     );

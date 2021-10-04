@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export const useScrollTop = () => {
 
     const [scrollTop, setScrollTop] = useState(0);
 
-    useEffect(() => {
-        const onLoad = e => {
-            const scroll = e.target.documentElement.scrollTop;
-            setScrollTop(scroll);
-        };
-        window.addEventListener("onload", onLoad);
-        return () => window.removeEventListener("onload", onLoad);
-    }, []);
+    const onLoad = useCallback((e) => {
+        const scroll = e.target.documentElement.scrollTop;
+        setScrollTop(scroll);
+    }, [setScrollTop]);
+
+    const onScroll = useCallback((e) => {
+        const scroll = e.target.documentElement.scrollTop;
+        setScrollTop(scroll);
+    }, [setScrollTop]);
 
     useEffect(() => {
-        const onScroll = e => {
-            const scroll = e.target.documentElement.scrollTop;
-            setScrollTop(scroll);
-        };
+        window.addEventListener("onload", onLoad);
+        return () => window.removeEventListener("onload", onLoad);
+    }, [onLoad]);
+
+    useEffect(() => {
         window.addEventListener("scroll", onScroll);
         return () => window.removeEventListener("scroll", onScroll);
-    }, [scrollTop]);
+    }, [onScroll]);
 
     return scrollTop;
 

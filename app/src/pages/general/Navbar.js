@@ -1,5 +1,5 @@
 
-import { useState} from "react";
+import { useState, memo} from "react";
 import useMeasure from "react-use-measure";
 import { Signin, RegisterButton } from "@/pages/auth";
 import { useScrollTop } from "@/hooks";
@@ -12,7 +12,7 @@ export const Navbar = () => {
 
 	const currentUser = authenticationService.currentUserValue;
 	const [ref, bounds] = useMeasure();
-	const scrollTop = useScrollTop();
+    const scrollTop = useScrollTop();
 
 	const history = useHistory();
 
@@ -29,7 +29,7 @@ export const Navbar = () => {
 
 	return (
 		<nav ref={ref} className={`gs-navbar${page === "/" ? scrollTop !== 0 ? " scroll" : "" : ""}${page !== "/" ? " page" : ""}`}>
-			<NavMenu/>
+			<NavMenu scrollTop={scrollTop}/>
 			{page === "/marketplace" && <SearchBar/>}
 
 			<div className={`navbar-menu ${page !== "/" && scrollTop !== 0 ? "scroll" : ""}`}>

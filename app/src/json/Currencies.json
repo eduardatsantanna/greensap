@@ -1,0 +1,82 @@
+{
+  "currencies": [
+    {
+      "name": "Australian Dollar",
+      "descr": "Australian Dollar",
+      "code": "AUD",
+      "symbol": "$"
+    },
+    {
+      "name": "Real",
+      "descr": "Brazilian Real",
+      "code": "BRL",
+      "symbol": "R$"
+    },
+    {
+      "name": "Canadian Dollar",
+      "descr": "Canadian Dollar",
+      "code": "CAD",
+      "symbol": "$"
+    },
+    {
+      "name": "Yuan",
+      "descr": "Chinese Yuan Renminbi",
+      "code": "CNY",
+      "symbol": "¥"
+    },
+    {
+      "name": "Euro",
+      "descr": "European Euro",
+      "code": "EUR",
+      "symbol": "€"
+    },
+    {
+      "name": "British Pound",
+      "descr": "Great Britain Pound",
+      "code": "GBP",
+      "symbol": "£"
+    },
+    {
+      "name": "Shekel",
+      "descr": "Israeli New Shekel",
+      "code": "ILS",
+      "symbol": "₪"
+    },
+    {
+      "name": "Rupee",
+      "descr": "Indian Rupee",
+      "code": "INR",
+      "symbol": "₹"
+    },
+    {
+      "name": "Yen",
+      "descr": "Japanese Yen",
+      "code": "JPY",
+      "symbol": "¥"
+    },
+    {
+      "name": "Peso",
+      "descr": "Mexican Peso",
+      "code": "MXN",
+      "symbol": "Mex$"
+    },
+    {
+      "name": "Riyal",
+      "descr": "Katar Riyal",
+      "code": "QAR",
+      "symbol": "﷼"
+    },
+    {
+      "name": "Riyal",
+      "descr": "Saudi Riyal",
+      "code": "SAR",
+      "symbol": "﷼"
+    },
+    {
+      "name": "US Dollar",
+      "descr": "United States Dollar",
+      "code": "USD",
+      "symbol": "$"
+    }
+  ]
+}

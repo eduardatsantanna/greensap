@@ -5,7 +5,7 @@ module.exports = override(useBabelRc(), addWebpackExternals({
         apiUrl: 'http://localhost:4000'
     }),
     "config": JSON.stringify({
-        apiUrl: 'https://coelac-dev-env-mleao-greensap-backend-srv.cfapps.sap.hana.ondemand.com/catalog'
+        apiUrl: 'http://localhost:3000/catalog'
     })
 
 }));

@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import config from "@arcgis/core/config";
 import { configureFakeBackend } from '@/helpers';
-configureFakeBackend();
+// configureFakeBackend();
 
 config.apiKey = "AAPK8c795fd716244118be11f2d482cfad7aD0Rl0nlCDFMcBGFZGGPcbZ6gb9HPrP16_4jkmhujxsvybdq-SUZMASoyj_NdYzdD";
 

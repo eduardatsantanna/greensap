@@ -1,12 +1,16 @@
 
 import MapView from "@arcgis/core/views/MapView";
 import Map from "@arcgis/core/Map";
+import BasemapToggle from "@arcgis/core/widgets/BasemapToggle";
+import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
+import { createTileLayer } from "@/helpers";
 
 export const createMapView = (mapDiv) => {
 
+    const basemap = createTileLayer();
 
     const map = new Map({
-        basemap: "arcgis-terrain",
+        basemap: basemap,
         //basemap: "arcgis-imagery-standard"
     });
 
@@ -28,6 +32,14 @@ export const createMapView = (mapDiv) => {
         maxScale: 0, // User can overzoom tiles
         rotationEnabled: false // Disables map rotation
     };
+
+    const basemapToggle = new BasemapToggle({
+        view: view,
+        nextBasemap: "arcgis-imagery"
+     });
+
+      view.ui.add(basemapToggle,"top-right");
+
 
     return view;
 }

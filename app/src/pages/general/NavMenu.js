@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { animated, config, useSpring, useTrail } from "react-spring";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useScrollTop, useOutsideFocus } from "@/hooks";
+import { useOutsideFocus } from "@/hooks";
 
-export const NavMenu = () => {
+export const NavMenu = memo(({scrollTop}) => {
+
   const menu = [
     { text: "Dashboard", link: "/dashboard", type: "NGO" },
     { text: "Project Marketplace", link: "/marketplace" },
@@ -12,7 +13,6 @@ export const NavMenu = () => {
   const [show, setShow] = useState(false);
   const ref = useRef(null);
   const isOutside = useOutsideFocus(ref);
-  const scrollTop = useScrollTop();
   const { pathname } = useLocation();
   const [menuStyles, menuController] = useSpring(() => ({ width: '0rem', backgroundColor: "rgba(1, 20, 2, 0)" }));
   const [itemsStyles, itemsController] = useTrail(menu.length, () => ({transform: "translateX(-100%)", opacity: 0}));
@@ -54,4 +54,4 @@ export const NavMenu = () => {
 			<p><Link to="/" className={`nav-link-gs nav-brand-m pl-2 ${pathname !== "/" ? " page" : ""}`}>G</Link></p>
     </div>
   );
-};
+});

@@ -24,7 +24,7 @@
   "background_color": "#ffffff",
   "sap.app": {
     "id": "yourHtml5ApplicationId",
-    "applicationVersion": {
+    "applicationVersion": {
       "version": "1.0.0"
     }
   }

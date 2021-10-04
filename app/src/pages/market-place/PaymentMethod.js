@@ -94,7 +94,7 @@ export const PaymentMethod = ({ onClose, recipientId, ownerId, compensation, est
             </div>
 
             <div className="totals">
-                <p>CO<sub>2</sub> neutralization in tons</p>
+                <p>CO<sub>2</sub> neutralization</p>
                 <p>
                     {compensation === "co2" && counter}
                     {compensation === "reforest" && estimated.toFixed(1)} kg
