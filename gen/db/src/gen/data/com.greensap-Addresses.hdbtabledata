@@ -1,0 +1,49 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_ADDRESSES",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-Addresses.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ID",
+          "CREATEDAT",
+          "CREATEDBY",
+          "MODIFIEDAT",
+          "MODIFIEDBY",
+          "LINE1",
+          "LINE2",
+          "LINE3",
+          "LINE4",
+          "LOCALITY",
+          "REGION",
+          "POSTALCODE",
+          "COUNTRY_CODE"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ID": "ID",
+        "CREATEDAT": "createdAt",
+        "CREATEDBY": "createdBy",
+        "MODIFIEDAT": "modifiedAt",
+        "MODIFIEDBY": "modifiedBy",
+        "LINE1": "Line1",
+        "LINE2": "Line2",
+        "LINE3": "Line3",
+        "LINE4": "Line4",
+        "LOCALITY": "Locality",
+        "REGION": "Region",
+        "POSTALCODE": "PostalCode",
+        "COUNTRY_CODE": "Country_code"
+      }
+    }
+  ]
+}

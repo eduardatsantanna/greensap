@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_INVESTORS" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="Investors"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="COM_GREENSAP_INDIVIDUALS">
+    <resourceUri>COM_GREENSAP_INDIVIDUALS</resourceUri>
+  </DataSource>
+  <DataSource id="CV_INVESTMENTS">
+    <resourceUri>CV_INVESTMENTS</resourceUri>
+  </DataSource>
+  <DataSource id="COM_GREENSAP_CORPORATIONS">
+    <resourceUri>COM_GREENSAP_CORPORATIONS</resourceUri>
+  </DataSource>
+  <DataSource id="CorporateInvestments$$$$CV_INVESTMENTS$$">
+    <resourceUri>CV_INVESTMENTS</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="IndividualInvestments" cardinality="C1_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="APPUSER_ID"/>
+      <viewAttribute id="EMPLOYER_APPUSER_ID"/>
+      <viewAttribute id="BLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS"/>
+      <viewAttribute id="TOTALNET"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="COM_GREENSAP_INDIVIDUALS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="EMPLOYER_APPUSER_ID" source="EMPLOYER_APPUSER_ID"/>
+    </input>
+    <input node="CV_INVESTMENTS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BLOCKSPURCHASED" source="AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="SENDER_ID"/>
+    </input>
+    <joinAttribute name="APPUSER_ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:AggregationView" id="EmployeeInvestments" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="EMPLOYER_APPUSER_ID"/>
+      <viewAttribute id="BLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="IndividualInvestments"/>
+    <filter>&quot;EMPLOYER_APPUSER_ID&quot; != null</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="CorporateInvestments" cardinality="C1_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="APPUSER_ID"/>
+      <viewAttribute id="BLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS"/>
+      <viewAttribute id="TOTALNET"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="COM_GREENSAP_CORPORATIONS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="APPUSER_ID"/>
+    </input>
+    <input node="CorporateInvestments$$$$CV_INVESTMENTS$$">
+      <mapping xsi:type="Calculation:AttributeMapping" target="BLOCKSPURCHASED" source="AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="SENDER_ID"/>
+    </input>
+    <joinAttribute name="APPUSER_ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="CorporateAndEmployeeInvestments">
+    <viewAttributes>
+      <viewAttribute id="APPUSER_ID"/>
+      <viewAttribute id="BLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CorporateInvestments" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BLOCKSPURCHASED" source="BLOCKSPURCHASED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+    </input>
+    <input node="EmployeeInvestments" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="EMPLOYER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BLOCKSPURCHASED" source="BLOCKSPURCHASED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="AllInvestors">
+    <viewAttributes>
+      <viewAttribute id="APPUSER_ID"/>
+      <viewAttribute id="BLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="CorporateAndEmployeeInvestments" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BLOCKSPURCHASED" source="BLOCKSPURCHASED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+    </input>
+    <input node="IndividualInvestments" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BLOCKSPURCHASED" source="BLOCKSPURCHASED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+    </input>
+  </calculationView>
+</calculationViews>
+<logicalModel id="AllInvestors">
+  <attributes>
+    <attribute id="APPUSER_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ID"/>
+      <keyMapping columnObjectName="AllInvestors" columnName="APPUSER_ID"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="BLOCKSPURCHASED" order="2" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Blocks Owned"/>
+      <measureMapping columnObjectName="AllInvestors" columnName="BLOCKSPURCHASED"/>
+    </measure>
+    <measure id="TOTALGROSS" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Gross Invested"/>
+      <measureMapping columnObjectName="AllInvestors" columnName="TOTALGROSS"/>
+    </measure>
+    <measure id="TOTALNET" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Net Invested"/>
+      <measureMapping columnObjectName="AllInvestors" columnName="TOTALNET"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="329" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="IndividualInvestments" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="356" y="656"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_INDIVIDUALS" modelObjectNameSpace="IndividualInvestments" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="249"/>
+    </shape>
+    <shape modelObjectName="CV_INVESTMENTS" modelObjectNameSpace="IndividualInvestments" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="186"/>
+    </shape>
+    <shape expanded="true" modelObjectName="EmployeeInvestments" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="301" y="504"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="CorporateInvestments" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="91" y="496"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_CORPORATIONS" modelObjectNameSpace="CorporateInvestments" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="269"/>
+    </shape>
+    <shape modelObjectName="CV_INVESTMENTS" modelObjectNameSpace="CorporateInvestments" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="186"/>
+    </shape>
+    <shape expanded="true" modelObjectName="CorporateAndEmployeeInvestments" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="275" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="AllInvestors" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="329" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

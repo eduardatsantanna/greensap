@@ -1,0 +1,16 @@
+﻿ID,createdAt,createdBy,modifiedAt,modifiedBy,Email,YouTube,Facebook,Instagram,Twitter,LinkedIn,WebpageURL,Type,Status,DisplayName,LegalName,TaxID,TaxAddress_ID,ProfileImage_URI,ProfileImage_Type,PreferredLanguage_code,PreferredCurrency_code
+37396a40-f156-11eb-9a03-02421c130003,,SYSTEM,,,dummy.jones@sap.com,,,,,,,individual,none,Dummy Jones,,,,,,EN,USD
+5f7a0a34-f159-11eb-9a03-02422c130003,,SYSTEM,,,super.man@juslig.com,,,,,,,individual,email,Clark Kent,,,,,,EN,USD
+571355f2-f15a-11eb-9a03-02423c130003,,SYSTEM,,,iron.man@avengers.com,,,,,,,individual,email,Tony Stark,,,,,,EN,USD
+37396a40-f156-11eb-9a03-02424c130003,,SYSTEM,,,mike.was@monstersinc.com,,,,,,,individual,email,Mike Wasowski,,,,,,EN,USD
+37396a41-f156-11eb-9a03-03325c130003,,SYSTEM,,,chavo.ocho@gmail.com,,,,,,,individual,email,Chavo del Ocho,,,,,,ES,MXN
+61ab5abf-7b22-49e3-9732-350cc3e7c707,,SYSTEM,,,shakira@gmail.com,,,,,,,individual,email,Shakira Isabel Mebarak,,,,,,ES,MXN
+61ab5bbf-7b22-49e3-9732-350cc3e7c707,,SYSTEM,,,mujica@uygov.com,,,,,,,individual,email,Pepe Mujica,,,,,,ES,MXN
+61ab5cbf-7b22-49e3-9732-350cc3e7c707,,SYSTEM,,,werneck@tv.com.br,,,,,,,individual,email,Tata Werneck,,,,,,PT,BRL
+61ab5dbf-7b22-49e3-9732-350cc3e7c707,,SYSTEM,,,maisvc@live.com,,,,,,,individual,email,Ana Maria Braga,,,,,,PT,BRL
+61ab5ebf-7b22-49e3-9732-350cc3e7c707,,SYSTEM,,,gildovigor@bbb.com,,,,,,,individual,email,Gilberto Nogueira,,,,,,PT,BRL
+048c4e1a-004b-11ec-9a03-0242ac130003,,,,,company@cempro.com,,https://www.facebook.com/ProgresoLatam,https://www.instagram.com/progreso_latam/,https://twitter.com/progreso_latam,https://www.linkedin.com/company/cementos-progreso/,https://www.progreso.com/,coorporate,complete,CEMPRO,Cementos Progreso Guatemala,abc123,4f0245f4-b2ac-4188-a235-d104dd909b17,,,EN,USD
+f1a3ab74-f157-11eb-9a03-0242ac130003,,,,,refawins@gmail.com,,,,,,www.refawins.com.mx,nonprofit,complete,Refawins,Refawins,65472384578,cc8e1a71-dfe3-4f9d-81a3-085cb55e61f1,,,EN,USD
+5dd8a190-f15e-11eb-9a03-0242ac130003,,,,,greener@green.com,,,,,,www.green.com.br,nonprofit,complete,Greener Green,Greener Green,75400069212,846577f7-1b03-4ce0-b84d-6a48b5d2fb4b,,,EN,USD
+633cf9d8-f15e-11eb-9a03-0242ac130003,,,,,airwindfireearthwater@gmail.com,,,,,,www.captain.com,nonprofit,complete,Captain Planet,Captain Planet,41922254736,0b677144-7c24-4557-be19-bb99779129bd,,,EN,USD
+f0459477-e5bd-4c37-8135-f70d293d14bf,,,,,chanshigematsu@gmail.com,https://www.youtube.com/playlist?list=PL6E648CB55DAED55E,https://www.facebook.com/greenhopefund/,http://instagram.com/greenhopefund,https://twitter.com/greenhopefund,,https://www.greenhopefund.org/,nonprofit,complete,Green Hope Fund,Green Hope Fund,14192225802,,,,ES,USD

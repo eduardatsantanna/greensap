@@ -1,0 +1,67 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_PROJECTS",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-Projects.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ID",
+          "CREATEDAT",
+          "CREATEDBY",
+          "MODIFIEDAT",
+          "MODIFIEDBY",
+          "OWNER_APPUSER_ID",
+          "NAME",
+          "DESCRIPTION_LINE1",
+          "DESCRIPTION_LINE2",
+          "DESCRIPTION_LINE3",
+          "LOGO_URI",
+          "LOGO_TYPE",
+          "BANNER_URI",
+          "BANNER_TYPE",
+          "PICTURES",
+          "COUNTRY_CODE",
+          "CENTROID_LATITUDE",
+          "CENTROID_LONGITUDE",
+          "SITEOWNERSHIP_ID",
+          "PLANTINGAREA_M2",
+          "PLANTINGDENSITY_M2",
+          "WORKERCOUNT"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ID": "ID",
+        "CREATEDAT": "createdAt",
+        "CREATEDBY": "createdBy",
+        "MODIFIEDAT": "modifiedAt",
+        "MODIFIEDBY": "modifiedBy",
+        "OWNER_APPUSER_ID": "Owner_AppUser_ID",
+        "NAME": "Name",
+        "DESCRIPTION_LINE1": "Description_Line1",
+        "DESCRIPTION_LINE2": "Description_Line2",
+        "DESCRIPTION_LINE3": "Description_Line3",
+        "LOGO_URI": "Logo_URI",
+        "LOGO_TYPE": "Logo_Type",
+        "BANNER_URI": "Banner_URI",
+        "BANNER_TYPE": "Banner_Type",
+        "PICTURES": "Pictures",
+        "COUNTRY_CODE": "Country_code",
+        "CENTROID_LATITUDE": "Centroid_Latitude",
+        "CENTROID_LONGITUDE": "Centroid_Longitude",
+        "SITEOWNERSHIP_ID": "SiteOwnership_ID",
+        "PLANTINGAREA_M2": "PlantingArea_m2",
+        "PLANTINGDENSITY_M2": "PlantingDensity_m2",
+        "WORKERCOUNT": "WorkerCount"
+      }
+    }
+  ]
+}

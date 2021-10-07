@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_REFORESTATIONMEASUREMENTS",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-ReforestationMeasurements.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "PROJECT_ID",
+          "METRIC_ID",
+          "VALUE",
+          "RECORDEDAT"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "PROJECT_ID": "Project_ID",
+        "METRIC_ID": "Metric_ID",
+        "VALUE": "Value",
+        "RECORDEDAT": "RecordedAt"
+      }
+    }
+  ]
+}

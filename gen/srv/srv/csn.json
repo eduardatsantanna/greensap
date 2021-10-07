@@ -1,38 +1,607 @@
 {
-  "namespace": "app.interactions",
   "definitions": {
-    "app.interactions.BusinessKey": {
-      "kind": "type",
-      "type": "cds.String",
-      "length": 10
+    "com.greensap": {
+      "kind": "context"
     },
-    "app.interactions.SDate": {
-      "kind": "type",
-      "type": "cds.DateTime"
-    },
-    "app.interactions.LText": {
-      "kind": "type",
-      "type": "cds.String",
-      "length": 1024
-    },
-    "app.interactions.Interactions_Header": {
-      "kind": "entity",
+    "com.greensap.standard": {
+      "kind": "aspect",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
       "elements": {
         "ID": {
           "key": true,
-          "type": "cds.Integer"
+          "type": "cds.UUID"
         },
-        "ITEMS": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        }
+      }
+    },
+    "com.greensap.social": {
+      "kind": "aspect",
+      "elements": {
+        "Email": {
+          "type": "cds.String"
+        },
+        "YouTube": {
+          "type": "cds.String"
+        },
+        "Facebook": {
+          "type": "cds.String"
+        },
+        "Instagram": {
+          "type": "cds.String"
+        },
+        "Twitter": {
+          "type": "cds.String"
+        },
+        "LinkedIn": {
+          "type": "cds.String"
+        },
+        "WebpageURL": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "com.greensap.Coordinate": {
+      "kind": "type",
+      "elements": {
+        "Latitude": {
+          "type": "cds.Double"
+        },
+        "Longitude": {
+          "type": "cds.Double"
+        }
+      }
+    },
+    "com.greensap.Image": {
+      "kind": "type",
+      "elements": {
+        "URI": {
+          "@Core.MediaType": {
+            "=": "Type"
+          },
+          "type": "cds.String"
+        },
+        "Type": {
+          "@Core.IsMediaType": true,
+          "type": "cds.String"
+        }
+      }
+    },
+    "com.greensap.AppUsers": {
+      "kind": "entity",
+      "includes": [
+        "com.greensap.standard",
+        "com.greensap.social"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Email": {
+          "type": "cds.String"
+        },
+        "YouTube": {
+          "type": "cds.String"
+        },
+        "Facebook": {
+          "type": "cds.String"
+        },
+        "Instagram": {
+          "type": "cds.String"
+        },
+        "Twitter": {
+          "type": "cds.String"
+        },
+        "LinkedIn": {
+          "type": "cds.String"
+        },
+        "WebpageURL": {
+          "type": "cds.String"
+        },
+        "Type": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "individual": {},
+            "corporate": {},
+            "nonprofit": {},
+            "certifier": {}
+          },
+          "notNull": true,
+          "default": {
+            "val": "individual"
+          }
+        },
+        "Status": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "none": {},
+            "email": {},
+            "complete": {}
+          },
+          "notNull": true,
+          "default": {
+            "val": "none"
+          }
+        },
+        "DisplayName": {
+          "type": "cds.String",
+          "length": 255
+        },
+        "LegalName": {
+          "type": "cds.String"
+        },
+        "TaxID": {
+          "type": "cds.String"
+        },
+        "TaxAddress": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Addresses",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "ProfileImage": {
+          "type": "com.greensap.Image"
+        },
+        "PreferredCurrency": {
+          "@title": "{i18n>Currency}",
+          "@description": "{i18n>CurrencyCode.Description}",
+          "type": "Currency",
+          "target": "sap.common.Currencies",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "PreferredLanguage": {
+          "@title": "{i18n>Language}",
+          "@description": "{i18n>LanguageCode.Description}",
+          "type": "Language",
+          "target": "sap.common.Languages",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "Following": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.ProjectFollowers",
+          "on": [
+            {
+              "ref": [
+                "Following",
+                "AppUser"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Individuals": {
+      "kind": "entity",
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Employer": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Corporations",
+          "keys": [
+            {
+              "ref": [
+                "AppUser"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Corporations": {
+      "kind": "entity",
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Employees": {
           "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },
-          "target": "app.interactions.Interactions_Items",
+          "target": "com.greensap.Individuals",
           "on": [
             {
               "ref": [
-                "ITEMS",
-                "INTHeader"
+                "Employees",
+                "Employer"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.NonProfits": {
+      "kind": "entity",
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Projects": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.Projects",
+          "on": [
+            {
+              "ref": [
+                "Projects",
+                "Owner"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Certifiers": {
+      "kind": "entity",
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        }
+      }
+    },
+    "com.greensap.Projects": {
+      "kind": "entity",
+      "includes": [
+        "com.greensap.standard"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Owner": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.NonProfits",
+          "keys": [
+            {
+              "ref": [
+                "AppUser"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Name": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Description_Line1": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Description_Line2": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Description_Line3": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Logo": {
+          "type": "com.greensap.Image"
+        },
+        "Banner": {
+          "type": "com.greensap.Image"
+        },
+        "Pictures": {
+          "items": {
+            "type": "com.greensap.Image"
+          }
+        },
+        "Country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "sap.common.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "Centroid": {
+          "type": "com.greensap.Coordinate"
+        },
+        "Boundaries": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.Boundaries",
+          "on": [
+            {
+              "ref": [
+                "Boundaries",
+                "Project"
               ]
             },
             "=",
@@ -43,14 +612,842 @@
             }
           ]
         },
-        "PARTNER": {
-          "type": "app.interactions.BusinessKey",
+        "SiteOwnership": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Ref_Ownership_Types",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "PlantingArea_m2": {
+          "type": "cds.Double"
+        },
+        "PlantingDensity_m2": {
+          "type": "cds.Double"
+        },
+        "WorkerCount": {
+          "type": "cds.Integer"
+        },
+        "Certifier": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Certifiers",
+          "keys": [
+            {
+              "ref": [
+                "AppUser"
+              ]
+            }
+          ]
+        },
+        "Investments": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.Investments",
+          "on": [
+            {
+              "ref": [
+                "Investments",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "ProgressAudits": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.ReforestationAudits",
+          "on": [
+            {
+              "ref": [
+                "ProgressAudits",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "ProgressMeasurements": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.ReforestationMeasurements",
+          "on": [
+            {
+              "ref": [
+                "ProgressMeasurements",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Followers": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.ProjectFollowers",
+          "on": [
+            {
+              "ref": [
+                "Followers",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.Projects.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "com.greensap.Projects.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Boundaries": {
+      "kind": "entity",
+      "elements": {
+        "Project": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Index": {
+          "key": true,
+          "type": "cds.Integer",
+          "notNull": true
+        },
+        "Coordinate": {
+          "type": "com.greensap.Coordinate"
+        }
+      }
+    },
+    "com.greensap.PlantingCosts": {
+      "kind": "entity",
+      "includes": [
+        "temporal"
+      ],
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        },
+        "Project": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "SowCost": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "ConservationCost": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "Currency": {
+          "@title": "{i18n>Currency}",
+          "@description": "{i18n>CurrencyCode.Description}",
+          "type": "Currency",
+          "target": "sap.common.Currencies",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.ReforestationAudits": {
+      "kind": "entity",
+      "@nokey": true,
+      "elements": {
+        "Project": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Species": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Ref_Tree_Species",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Quantity": {
+          "type": "cds.Integer"
+        },
+        "RecordedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "com.greensap.ReforestationMeasurements": {
+      "kind": "entity",
+      "@nokey": true,
+      "elements": {
+        "Project": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Metric": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Ref_Planting_Metrics",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Value": {
+          "type": "cds.Double"
+        },
+        "RecordedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "com.greensap.ProjectFollowers": {
+      "kind": "entity",
+      "elements": {
+        "Project": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.ProjectPictures": {
+      "kind": "entity",
+      "elements": {
+        "Project": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Picture": {
+          "type": "com.greensap.Image"
+        }
+      }
+    },
+    "com.greensap.Ref_Ownership_Types": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.Ref_Ownership_Types.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "com.greensap.Ref_Ownership_Types.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Ref_Planting_Metrics": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Symbol": {
+          "type": "cds.String",
           "length": 10
         },
-        "LOG_DATE": {
-          "type": "app.interactions.SDate"
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.Ref_Planting_Metrics.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
         },
-        "BPCOUNTRY": {
+        "localized": {
+          "type": "cds.Association",
+          "target": "com.greensap.Ref_Planting_Metrics.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Ref_Tree_Species": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "BinomialNomenclature": {
+          "type": "cds.String"
+        },
+        "CommonName": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "OffsetAverage_tco2e_year_tree": {
+          "type": "cds.Double"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "com.greensap.Ref_Tree_Species.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "com.greensap.Ref_Tree_Species.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Transactions": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Asset": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "pland": {},
+            "ccredit": {}
+          },
+          "notNull": true
+        },
+        "Amount": {
+          "type": "cds.Double",
+          "notNull": true,
+          "default": {
+            "val": 0
+          }
+        },
+        "Sender": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Recipient": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "CreatedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "com.greensap.Investments": {
+      "kind": "entity",
+      "elements": {
+        "Transaction": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Transactions",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Project": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "com.greensap.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "UnitCost": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "Fees": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "Currency": {
+          "@title": "{i18n>Currency}",
+          "@description": "{i18n>CurrencyCode.Description}",
+          "type": "Currency",
+          "target": "sap.common.Currencies",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "com.greensap.Addresses": {
+      "kind": "entity",
+      "includes": [
+        "com.greensap.standard"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Line1": {
+          "type": "cds.String"
+        },
+        "Line2": {
+          "type": "cds.String"
+        },
+        "Line3": {
+          "type": "cds.String"
+        },
+        "Line4": {
+          "type": "cds.String"
+        },
+        "Locality": {
+          "type": "cds.String"
+        },
+        "Region": {
+          "type": "cds.String"
+        },
+        "PostalCode": {
+          "type": "cds.String"
+        },
+        "Country": {
           "@title": "{i18n>Country}",
           "@description": "{i18n>CountryCode.Description}",
           "type": "Country",
@@ -65,13 +1462,406 @@
         }
       }
     },
-    "app.interactions.Interactions_Items": {
+    "CV_INVESTORS": {
       "kind": "entity",
+      "@cds.persistence.exists": true,
+      "@cds.persistence.calcview": true,
       "elements": {
-        "INTHeader": {
+        "APPUSER_ID": {
+          "@title": "APPUSER_ID: ID",
           "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "BLOCKSPURCHASED": {
+          "@title": "BLOCKSPURCHASED: Blocks Owned",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALGROSS": {
+          "@title": "TOTALGROSS: Total Gross Invested",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALNET": {
+          "@title": "TOTALNET: Total Net Invested",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        }
+      }
+    },
+    "CV_NONPROFITS": {
+      "kind": "entity",
+      "@cds.persistence.exists": true,
+      "@cds.persistence.calcview": true,
+      "elements": {
+        "APPUSER_ID": {
+          "@title": "APPUSER_ID: ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "FOLLOWERCOUNT": {
+          "@title": "FOLLOWERCOUNT: Total Follower Count",
+          "key": true,
+          "type": "cds.Integer64"
+        },
+        "INVESTORCOUNT": {
+          "@title": "INVESTORCOUNT: Total Investor Count",
+          "key": true,
+          "type": "cds.Integer64"
+        },
+        "TOTALTREESPLANTED": {
+          "@title": "TOTALTREESPLANTED: Total Trees Planted",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "TOTALOFFSETEXPECTED_TCO2E": {
+          "@title": "TOTALOFFSETEXPECTED_TCO2E: Total Expected Carbon Offset until present (tCO2e)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "SOWCOSTAVERAGE": {
+          "@title": "SOWCOSTAVERAGE: Average Sow Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "CONSERVATIONCOST": {
+          "@title": "CONSERVATIONCOST: Average Conservation Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALGROSS": {
+          "@title": "TOTALGROSS: Total Gross Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALNET": {
+          "@title": "TOTALNET: Total Net Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        }
+      }
+    },
+    "CV_PROJECTS": {
+      "kind": "entity",
+      "@cds.persistence.exists": true,
+      "@cds.persistence.calcview": true,
+      "elements": {
+        "ID": {
+          "@title": "ID: ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "OWNER_APPUSER_ID": {
+          "@title": "OWNER_APPUSER_ID: Non-Profit ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "CENTROID_LATITUDE": {
+          "@title": "CENTROID_LATITUDE: Centroid Latitude",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "CENTROID_LONGITUDE": {
+          "@title": "CENTROID_LONGITUDE: Centroid Longitude",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "WORKERCOUNT": {
+          "@title": "WORKERCOUNT: Worker Count",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "CERTIFIER_APPUSER_ID": {
+          "@title": "CERTIFIER_APPUSER_ID: Certifier ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "FOLLOWER_ID": {
+          "@title": "FOLLOWER_ID: Follower ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "INVESTOR_ID": {
+          "@title": "INVESTOR_ID: Investor ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "PLANTINGAREA_M2": {
+          "@title": "PLANTINGAREA_M2: Planting Area (m2)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "PLANTINGDENSITY_M2": {
+          "@title": "PLANTINGDENSITY_M2: Planting Density (m2)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "SOWCOST": {
+          "@title": "SOWCOST: Sow Cost per tree",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "CONSERVATIONCOST": {
+          "@title": "CONSERVATIONCOST: Conservation Cost per tree",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "BLOCKAREA_M2": {
+          "@title": "BLOCKAREA_M2: Block Area (m2)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALBLOCKCAPACITY": {
+          "@title": "TOTALBLOCKCAPACITY: Total Block Capacity",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "BLOCKPLANTINGCAPACITY": {
+          "@title": "BLOCKPLANTINGCAPACITY: Block Planting Capacity",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALPLANTINGCAPACITY": {
+          "@title": "TOTALPLANTINGCAPACITY: Total Planting Capacity",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "BLOCKOFFSETAVERAGE_TCO2E_YEAR": {
+          "@title": "BLOCKOFFSETAVERAGE_TCO2E_YEAR: Average Yearly Carbon Offset per block",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "BLOCKINITIALCOST": {
+          "@title": "BLOCKINITIALCOST: Block Initial Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "BLOCKUPKEEPCOST": {
+          "@title": "BLOCKUPKEEPCOST: Block Upkeep Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "CREATEDAT": {
+          "@title": "CREATEDAT: Created At Timestamp",
+          "key": true,
+          "type": "cds.Timestamp"
+        },
+        "OFFSETAVERAGE_TCO2E_YEAR_TREE": {
+          "@title": "OFFSETAVERAGE_TCO2E_YEAR_TREE: Average Carbon Offset per year per tree (tCO2e)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALTREESPLANTED": {
+          "@title": "TOTALTREESPLANTED: Total Trees Planted",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "TOTALOFFSETEXPECTED_TCO2E": {
+          "@title": "TOTALOFFSETEXPECTED_TCO2E: Total Expected Carbon Offset until present (tCO2e)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALBLOCKSPURCHASED": {
+          "@title": "TOTALBLOCKSPURCHASED: Total Blocks Purchased",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALGROSS": {
+          "@title": "TOTALGROSS: Total Gross Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALNET": {
+          "@title": "TOTALNET: Total Net Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "FOLLOWERCOUNT": {
+          "@title": "FOLLOWERCOUNT: Follower Count",
+          "key": true,
+          "type": "cds.Integer64"
+        },
+        "INVESTORCOUNT": {
+          "@title": "INVESTORCOUNT: Investor Count",
+          "key": true,
+          "type": "cds.Integer64"
+        }
+      }
+    },
+    "catalog": {
+      "@source": "srv/cat-service.cds",
+      "kind": "service",
+      "@path": "/catalog"
+    },
+    "catalog.AppUsers": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.AppUsers"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Email": {
+          "type": "cds.String"
+        },
+        "YouTube": {
+          "type": "cds.String"
+        },
+        "Facebook": {
+          "type": "cds.String"
+        },
+        "Instagram": {
+          "type": "cds.String"
+        },
+        "Twitter": {
+          "type": "cds.String"
+        },
+        "LinkedIn": {
+          "type": "cds.String"
+        },
+        "WebpageURL": {
+          "type": "cds.String"
+        },
+        "Type": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "individual": {},
+            "corporate": {},
+            "nonprofit": {},
+            "certifier": {}
+          },
+          "notNull": true,
+          "default": {
+            "val": "individual"
+          }
+        },
+        "Status": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "none": {},
+            "email": {},
+            "complete": {}
+          },
+          "notNull": true,
+          "default": {
+            "val": "none"
+          }
+        },
+        "DisplayName": {
+          "type": "cds.String",
+          "length": 255
+        },
+        "LegalName": {
+          "type": "cds.String"
+        },
+        "TaxID": {
+          "type": "cds.String"
+        },
+        "TaxAddress": {
           "type": "cds.Association",
-          "target": "app.interactions.Interactions_Header",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Addresses",
           "keys": [
             {
               "ref": [
@@ -80,50 +1870,472 @@
             }
           ]
         },
-        "TEXT_ID": {
-          "key": true,
-          "type": "app.interactions.BusinessKey",
-          "length": 10
+        "ProfileImage": {
+          "type": "com.greensap.Image"
         },
-        "LANGU": {
-          "type": "cds.String",
-          "length": 2
+        "PreferredCurrency": {
+          "@title": "{i18n>Currency}",
+          "@description": "{i18n>CurrencyCode.Description}",
+          "type": "Currency",
+          "target": "catalog.Currencies",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
         },
-        "LOGTEXT": {
-          "type": "app.interactions.LText",
-          "length": 1024
+        "PreferredLanguage": {
+          "@title": "{i18n>Language}",
+          "@description": "{i18n>LanguageCode.Description}",
+          "type": "Language",
+          "target": "catalog.Languages",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "Following": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.ProjectFollowers",
+          "on": [
+            {
+              "ref": [
+                "Following",
+                "AppUser"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
         }
       }
     },
-    "CatalogService": {
-      "@source": "srv/interaction_srv.cds",
-      "kind": "service"
-    },
-    "CatalogService.Interactions_Header": {
+    "catalog.Individuals": {
       "kind": "entity",
       "projection": {
         "from": {
           "ref": [
-            "app.interactions.Interactions_Header"
+            "com.greensap.Individuals"
+          ]
+        }
+      },
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Employer": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Corporations",
+          "keys": [
+            {
+              "ref": [
+                "AppUser"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.Corporations": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Corporations"
+          ]
+        }
+      },
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Employees": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Individuals",
+          "on": [
+            {
+              "ref": [
+                "Employees",
+                "Employer"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.InvestorAnalytics": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "CV_INVESTORS"
+          ]
+        }
+      },
+      "elements": {
+        "APPUSER_ID": {
+          "@title": "APPUSER_ID: ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "BLOCKSPURCHASED": {
+          "@title": "BLOCKSPURCHASED: Blocks Owned",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALGROSS": {
+          "@title": "TOTALGROSS: Total Gross Invested",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALNET": {
+          "@title": "TOTALNET: Total Net Invested",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        }
+      }
+    },
+    "catalog.NonProfits": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.NonProfits"
+          ]
+        }
+      },
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Projects": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Projects",
+          "on": [
+            {
+              "ref": [
+                "Projects",
+                "Owner"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.NonProfitAnalytics": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "CV_NONPROFITS"
+          ]
+        }
+      },
+      "elements": {
+        "APPUSER_ID": {
+          "@title": "APPUSER_ID: ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "FOLLOWERCOUNT": {
+          "@title": "FOLLOWERCOUNT: Total Follower Count",
+          "key": true,
+          "type": "cds.Integer64"
+        },
+        "INVESTORCOUNT": {
+          "@title": "INVESTORCOUNT: Total Investor Count",
+          "key": true,
+          "type": "cds.Integer64"
+        },
+        "TOTALTREESPLANTED": {
+          "@title": "TOTALTREESPLANTED: Total Trees Planted",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "TOTALOFFSETEXPECTED_TCO2E": {
+          "@title": "TOTALOFFSETEXPECTED_TCO2E: Total Expected Carbon Offset until present (tCO2e)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "SOWCOSTAVERAGE": {
+          "@title": "SOWCOSTAVERAGE: Average Sow Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "CONSERVATIONCOST": {
+          "@title": "CONSERVATIONCOST: Average Conservation Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALGROSS": {
+          "@title": "TOTALGROSS: Total Gross Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALNET": {
+          "@title": "TOTALNET: Total Net Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        }
+      }
+    },
+    "catalog.Certifiers": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Certifiers"
+          ]
+        }
+      },
+      "elements": {
+        "AppUser": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        }
+      }
+    },
+    "catalog.Projects": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Projects"
           ]
         }
       },
       "elements": {
         "ID": {
           "key": true,
-          "type": "cds.Integer"
+          "type": "cds.UUID"
         },
-        "ITEMS": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Owner": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.NonProfits",
+          "keys": [
+            {
+              "ref": [
+                "AppUser"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Name": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Description_Line1": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Description_Line2": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Description_Line3": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Logo": {
+          "type": "com.greensap.Image"
+        },
+        "Banner": {
+          "type": "com.greensap.Image"
+        },
+        "Pictures": {
+          "items": {
+            "type": "com.greensap.Image"
+          }
+        },
+        "Country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "catalog.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "Centroid": {
+          "type": "com.greensap.Coordinate"
+        },
+        "Boundaries": {
           "type": "cds.Composition",
           "cardinality": {
             "max": "*"
           },
-          "target": "CatalogService.Interactions_Items",
+          "target": "catalog.Boundaries",
           "on": [
             {
               "ref": [
-                "ITEMS",
-                "INTHeader"
+                "Boundaries",
+                "Project"
               ]
             },
             "=",
@@ -134,18 +2346,471 @@
             }
           ]
         },
-        "PARTNER": {
-          "type": "app.interactions.BusinessKey",
-          "length": 10
+        "SiteOwnership": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Ref_Ownership_Types",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
         },
-        "LOG_DATE": {
-          "type": "app.interactions.SDate"
+        "PlantingArea_m2": {
+          "type": "cds.Double"
         },
-        "BPCOUNTRY": {
-          "@title": "{i18n>Country}",
-          "@description": "{i18n>CountryCode.Description}",
-          "type": "Country",
-          "target": "CatalogService.Countries",
+        "PlantingDensity_m2": {
+          "type": "cds.Double"
+        },
+        "WorkerCount": {
+          "type": "cds.Integer"
+        },
+        "Certifier": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Certifiers",
+          "keys": [
+            {
+              "ref": [
+                "AppUser"
+              ]
+            }
+          ]
+        },
+        "Investments": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Investments",
+          "on": [
+            {
+              "ref": [
+                "Investments",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "ProgressAudits": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.ReforestationAudits",
+          "on": [
+            {
+              "ref": [
+                "ProgressAudits",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "ProgressMeasurements": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.ReforestationMeasurements",
+          "on": [
+            {
+              "ref": [
+                "ProgressMeasurements",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "Followers": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.ProjectFollowers",
+          "on": [
+            {
+              "ref": [
+                "Followers",
+                "Project"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Projects.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "catalog.Projects.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.ProjectAnalytics": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "CV_PROJECTS"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@title": "ID: ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "OWNER_APPUSER_ID": {
+          "@title": "OWNER_APPUSER_ID: Non-Profit ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "CENTROID_LATITUDE": {
+          "@title": "CENTROID_LATITUDE: Centroid Latitude",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "CENTROID_LONGITUDE": {
+          "@title": "CENTROID_LONGITUDE: Centroid Longitude",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "WORKERCOUNT": {
+          "@title": "WORKERCOUNT: Worker Count",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "CERTIFIER_APPUSER_ID": {
+          "@title": "CERTIFIER_APPUSER_ID: Certifier ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "FOLLOWER_ID": {
+          "@title": "FOLLOWER_ID: Follower ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "INVESTOR_ID": {
+          "@title": "INVESTOR_ID: Investor ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 36
+        },
+        "PLANTINGAREA_M2": {
+          "@title": "PLANTINGAREA_M2: Planting Area (m2)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "PLANTINGDENSITY_M2": {
+          "@title": "PLANTINGDENSITY_M2: Planting Density (m2)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "SOWCOST": {
+          "@title": "SOWCOST: Sow Cost per tree",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "CONSERVATIONCOST": {
+          "@title": "CONSERVATIONCOST: Conservation Cost per tree",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "BLOCKAREA_M2": {
+          "@title": "BLOCKAREA_M2: Block Area (m2)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALBLOCKCAPACITY": {
+          "@title": "TOTALBLOCKCAPACITY: Total Block Capacity",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "BLOCKPLANTINGCAPACITY": {
+          "@title": "BLOCKPLANTINGCAPACITY: Block Planting Capacity",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALPLANTINGCAPACITY": {
+          "@title": "TOTALPLANTINGCAPACITY: Total Planting Capacity",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "BLOCKOFFSETAVERAGE_TCO2E_YEAR": {
+          "@title": "BLOCKOFFSETAVERAGE_TCO2E_YEAR: Average Yearly Carbon Offset per block",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "BLOCKINITIALCOST": {
+          "@title": "BLOCKINITIALCOST: Block Initial Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "BLOCKUPKEEPCOST": {
+          "@title": "BLOCKUPKEEPCOST: Block Upkeep Cost",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "CREATEDAT": {
+          "@title": "CREATEDAT: Created At Timestamp",
+          "key": true,
+          "type": "cds.Timestamp"
+        },
+        "OFFSETAVERAGE_TCO2E_YEAR_TREE": {
+          "@title": "OFFSETAVERAGE_TCO2E_YEAR_TREE: Average Carbon Offset per year per tree (tCO2e)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALTREESPLANTED": {
+          "@title": "TOTALTREESPLANTED: Total Trees Planted",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "TOTALOFFSETEXPECTED_TCO2E": {
+          "@title": "TOTALOFFSETEXPECTED_TCO2E: Total Expected Carbon Offset until present (tCO2e)",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALBLOCKSPURCHASED": {
+          "@title": "TOTALBLOCKSPURCHASED: Total Blocks Purchased",
+          "key": true,
+          "type": "cds.Double"
+        },
+        "TOTALGROSS": {
+          "@title": "TOTALGROSS: Total Gross Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "TOTALNET": {
+          "@title": "TOTALNET: Total Net Investments",
+          "key": true,
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "FOLLOWERCOUNT": {
+          "@title": "FOLLOWERCOUNT: Follower Count",
+          "key": true,
+          "type": "cds.Integer64"
+        },
+        "INVESTORCOUNT": {
+          "@title": "INVESTORCOUNT: Investor Count",
+          "key": true,
+          "type": "cds.Integer64"
+        }
+      }
+    },
+    "catalog.Transactions": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Transactions"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Asset": {
+          "@assert.range": true,
+          "type": "cds.String",
+          "enum": {
+            "pland": {},
+            "ccredit": {}
+          },
+          "notNull": true
+        },
+        "Amount": {
+          "type": "cds.Double",
+          "notNull": true,
+          "default": {
+            "val": 0
+          }
+        },
+        "Sender": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Recipient": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "CreatedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "catalog.Investments": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Investments"
+          ]
+        }
+      },
+      "elements": {
+        "Transaction": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Transactions",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Project": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "UnitCost": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "Fees": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "Currency": {
+          "@title": "{i18n>Currency}",
+          "@description": "{i18n>CurrencyCode.Description}",
+          "type": "Currency",
+          "target": "catalog.Currencies",
           "keys": [
             {
               "ref": [
@@ -156,20 +2821,332 @@
         }
       }
     },
-    "CatalogService.Interactions_Items": {
+    "catalog.ReforestationAudits": {
       "kind": "entity",
+      "@nokey": true,
       "projection": {
         "from": {
           "ref": [
-            "app.interactions.Interactions_Items"
+            "com.greensap.ReforestationAudits"
           ]
         }
       },
       "elements": {
-        "INTHeader": {
+        "Project": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Species": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Ref_Tree_Species",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Quantity": {
+          "type": "cds.Integer"
+        },
+        "RecordedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "catalog.ReforestationMeasurements": {
+      "kind": "entity",
+      "@nokey": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.ReforestationMeasurements"
+          ]
+        }
+      },
+      "elements": {
+        "Project": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Metric": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Ref_Planting_Metric",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Value": {
+          "type": "cds.Double"
+        },
+        "RecordedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "catalog.Addresses": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Addresses"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "Line1": {
+          "type": "cds.String"
+        },
+        "Line2": {
+          "type": "cds.String"
+        },
+        "Line3": {
+          "type": "cds.String"
+        },
+        "Line4": {
+          "type": "cds.String"
+        },
+        "Locality": {
+          "type": "cds.String"
+        },
+        "Region": {
+          "type": "cds.String"
+        },
+        "PostalCode": {
+          "type": "cds.String"
+        },
+        "Country": {
+          "@title": "{i18n>Country}",
+          "@description": "{i18n>CountryCode.Description}",
+          "type": "Country",
+          "target": "catalog.Countries",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.Boundaries": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Boundaries"
+          ]
+        }
+      },
+      "elements": {
+        "Project": {
           "key": true,
           "type": "cds.Association",
-          "target": "CatalogService.Interactions_Header",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "Index": {
+          "key": true,
+          "type": "cds.Integer",
+          "notNull": true
+        },
+        "Coordinate": {
+          "type": "com.greensap.Coordinate"
+        }
+      }
+    },
+    "catalog.PlantingCosts": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.PlantingCosts"
+          ]
+        }
+      },
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        },
+        "Project": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Projects",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ],
+          "notNull": true
+        },
+        "SowCost": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "ConservationCost": {
+          "type": "cds.Decimal",
+          "precision": 9,
+          "scale": 2
+        },
+        "Currency": {
+          "@title": "{i18n>Currency}",
+          "@description": "{i18n>CurrencyCode.Description}",
+          "type": "Currency",
+          "target": "catalog.Currencies",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.ProjectFollowers": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.ProjectFollowers"
+          ]
+        }
+      },
+      "elements": {
+        "Project": {
+          "key": true,
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.Projects",
           "keys": [
             {
               "ref": [
@@ -178,18 +3155,249 @@
             }
           ]
         },
-        "TEXT_ID": {
+        "AppUser": {
           "key": true,
-          "type": "app.interactions.BusinessKey",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "catalog.AppUsers",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.Ref_Ownership_Types": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Ref_Ownership_Types"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Ref_Ownership_Types.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "catalog.Ref_Ownership_Types.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.Ref_Tree_Species": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Ref_Tree_Species"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "BinomialNomenclature": {
+          "type": "cds.String"
+        },
+        "CommonName": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "OffsetAverage_tco2e_year_tree": {
+          "type": "cds.Double"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Ref_Tree_Species.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "catalog.Ref_Tree_Species.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.Ref_Planting_Metric": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Ref_Planting_Metrics"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": true,
+          "type": "cds.String"
+        },
+        "Symbol": {
+          "type": "cds.String",
           "length": 10
         },
-        "LANGU": {
-          "type": "cds.String",
-          "length": 2
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Ref_Planting_Metric.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
         },
-        "LOGTEXT": {
-          "type": "app.interactions.LText",
-          "length": 1024
+        "localized": {
+          "type": "cds.Association",
+          "target": "catalog.Ref_Planting_Metric.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "ID"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
         }
       }
     },
@@ -640,6 +3848,98 @@
       "type": "cds.String",
       "length": 255
     },
+    "com.greensap.Projects.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Name": {
+          "localized": false,
+          "type": "cds.String"
+        },
+        "Description_Line1": {
+          "localized": false,
+          "type": "cds.String"
+        },
+        "Description_Line2": {
+          "localized": false,
+          "type": "cds.String"
+        },
+        "Description_Line3": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
+    "com.greensap.Ref_Ownership_Types.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
+    "com.greensap.Ref_Planting_Metrics.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
+    "com.greensap.Ref_Tree_Species.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "CommonName": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
     "sap.common.Languages.texts": {
       "kind": "entity",
       "@odata.draft.enabled": false,
@@ -739,7 +4039,206 @@
         }
       }
     },
-    "CatalogService.Countries": {
+    "catalog.Currencies": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Currencies"
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@title": "{i18n>CurrencySymbol}",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "catalog.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.Languages": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Languages"
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "catalog.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "catalog.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "catalog.Countries": {
       "kind": "entity",
       "@cds.autoexposed": true,
       "@cds.autoexpose": true,
@@ -786,7 +4285,7 @@
           "cardinality": {
             "max": "*"
           },
-          "target": "CatalogService.Countries.texts",
+          "target": "catalog.Countries.texts",
           "on": [
             {
               "ref": [
@@ -804,7 +4303,7 @@
         },
         "localized": {
           "type": "cds.Association",
-          "target": "CatalogService.Countries.texts",
+          "target": "catalog.Countries.texts",
           "on": [
             {
               "ref": [
@@ -836,7 +4335,213 @@
         }
       }
     },
-    "CatalogService.Countries.texts": {
+    "catalog.Projects.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Projects.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Name": {
+          "localized": false,
+          "type": "cds.String"
+        },
+        "Description_Line1": {
+          "localized": false,
+          "type": "cds.String"
+        },
+        "Description_Line2": {
+          "localized": false,
+          "type": "cds.String"
+        },
+        "Description_Line3": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
+    "catalog.Ref_Ownership_Types.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Ref_Ownership_Types.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
+    "catalog.Ref_Tree_Species.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Ref_Tree_Species.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "CommonName": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
+    "catalog.Ref_Planting_Metric.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "com.greensap.Ref_Planting_Metrics.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "ID": {
+          "@odata.containment.ignore": true,
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Description": {
+          "localized": false,
+          "type": "cds.String"
+        }
+      }
+    },
+    "catalog.Currencies.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Currencies.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "catalog.Languages.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.common.Languages.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>LanguageCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        }
+      }
+    },
+    "catalog.Countries.texts": {
       "kind": "entity",
       "@cds.autoexposed": true,
       "@odata.draft.enabled": false,

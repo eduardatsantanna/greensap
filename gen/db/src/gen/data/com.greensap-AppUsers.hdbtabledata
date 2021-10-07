@@ -1,0 +1,67 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_APPUSERS",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-AppUsers.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ID",
+          "CREATEDAT",
+          "CREATEDBY",
+          "MODIFIEDAT",
+          "MODIFIEDBY",
+          "EMAIL",
+          "YOUTUBE",
+          "FACEBOOK",
+          "INSTAGRAM",
+          "TWITTER",
+          "LINKEDIN",
+          "WEBPAGEURL",
+          "TYPE",
+          "STATUS",
+          "DISPLAYNAME",
+          "LEGALNAME",
+          "TAXID",
+          "TAXADDRESS_ID",
+          "PROFILEIMAGE_URI",
+          "PROFILEIMAGE_TYPE",
+          "PREFERREDLANGUAGE_CODE",
+          "PREFERREDCURRENCY_CODE"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ID": "ID",
+        "CREATEDAT": "createdAt",
+        "CREATEDBY": "createdBy",
+        "MODIFIEDAT": "modifiedAt",
+        "MODIFIEDBY": "modifiedBy",
+        "EMAIL": "Email",
+        "YOUTUBE": "YouTube",
+        "FACEBOOK": "Facebook",
+        "INSTAGRAM": "Instagram",
+        "TWITTER": "Twitter",
+        "LINKEDIN": "LinkedIn",
+        "WEBPAGEURL": "WebpageURL",
+        "TYPE": "Type",
+        "STATUS": "Status",
+        "DISPLAYNAME": "DisplayName",
+        "LEGALNAME": "LegalName",
+        "TAXID": "TaxID",
+        "TAXADDRESS_ID": "TaxAddress_ID",
+        "PROFILEIMAGE_URI": "ProfileImage_URI",
+        "PROFILEIMAGE_TYPE": "ProfileImage_Type",
+        "PREFERREDLANGUAGE_CODE": "PreferredLanguage_code",
+        "PREFERREDCURRENCY_CODE": "PreferredCurrency_code"
+      }
+    }
+  ]
+}

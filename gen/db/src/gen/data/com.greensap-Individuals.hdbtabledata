@@ -1,0 +1,27 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_INDIVIDUALS",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-Individuals.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "APPUSER_ID",
+          "EMPLOYER_APPUSER_ID"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "APPUSER_ID": "AppUser_ID",
+        "EMPLOYER_APPUSER_ID": "Employer_AppUser_ID"
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_PLANTINGCOSTS",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-PlantingCosts.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "VALIDFROM",
+          "VALIDTO",
+          "PROJECT_ID",
+          "SOWCOST",
+          "CONSERVATIONCOST",
+          "CURRENCY_CODE"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "VALIDFROM": "validFrom",
+        "VALIDTO": "validTo",
+        "PROJECT_ID": "Project_ID",
+        "SOWCOST": "SowCost",
+        "CONSERVATIONCOST": "ConservationCost",
+        "CURRENCY_CODE": "Currency_code"
+      }
+    }
+  ]
+}

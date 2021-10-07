@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_NONPROFITS" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="Non-Profits"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="COM_GREENSAP_NONPROFITS">
+    <resourceUri>COM_GREENSAP_NONPROFITS</resourceUri>
+  </DataSource>
+  <DataSource id="CV_PROJECTS">
+    <resourceUri>CV_PROJECTS</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="NGOProjects" cardinality="C1_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="APPUSER_ID"/>
+      <viewAttribute id="FOLLOWERCOUNT" aggregationType="sum"/>
+      <viewAttribute id="INVESTORCOUNT" aggregationType="sum"/>
+      <viewAttribute id="TOTALTREESPLANTED" aggregationType="sum"/>
+      <viewAttribute id="TOTALOFFSETEXPECTED_TCO2E" aggregationType="sum"/>
+      <viewAttribute id="SOWCOST"/>
+      <viewAttribute id="CONSERVATIONCOST"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="COM_GREENSAP_NONPROFITS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="APPUSER_ID"/>
+    </input>
+    <input node="CV_PROJECTS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="FOLLOWERCOUNT" source="FOLLOWERCOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVESTORCOUNT" source="INVESTORCOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALTREESPLANTED" source="TOTALTREESPLANTED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALOFFSETEXPECTED_TCO2E" source="TOTALOFFSETEXPECTED_TCO2E"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SOWCOST" source="SOWCOST"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONSERVATIONCOST" source="CONSERVATIONCOST"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="APPUSER_ID" source="OWNER_APPUSER_ID"/>
+    </input>
+    <joinAttribute name="APPUSER_ID"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="NGOProjects">
+  <attributes>
+    <attribute id="APPUSER_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ID"/>
+      <keyMapping columnObjectName="NGOProjects" columnName="APPUSER_ID"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="FOLLOWERCOUNT" order="2" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Follower Count"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="FOLLOWERCOUNT"/>
+    </measure>
+    <measure id="INVESTORCOUNT" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Investor Count"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="INVESTORCOUNT"/>
+    </measure>
+    <measure id="TOTALTREESPLANTED" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Trees Planted"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="TOTALTREESPLANTED"/>
+    </measure>
+    <measure id="TOTALOFFSETEXPECTED_TCO2E" order="5" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Expected Carbon Offset until present (tCO2e)"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="TOTALOFFSETEXPECTED_TCO2E"/>
+    </measure>
+    <measure id="SOWCOSTAVERAGE" order="6" aggregationType="avg" measureType="simple">
+      <descriptions defaultDescription="Average Sow Cost"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="SOWCOST"/>
+    </measure>
+    <measure id="CONSERVATIONCOST" order="7" aggregationType="avg" measureType="simple">
+      <descriptions defaultDescription="Average Conservation Cost"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="CONSERVATIONCOST"/>
+    </measure>
+    <measure id="TOTALGROSS" order="8" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Gross Investments"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="TOTALGROSS"/>
+    </measure>
+    <measure id="TOTALNET" order="9" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Net Investments"/>
+      <measureMapping columnObjectName="NGOProjects" columnName="TOTALNET"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="NGOProjects" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="194"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_NONPROFITS" modelObjectNameSpace="NGOProjects" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="251"/>
+    </shape>
+    <shape modelObjectName="CV_PROJECTS" modelObjectNameSpace="NGOProjects" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="297"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

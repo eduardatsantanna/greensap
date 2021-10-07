@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_REF_TREE_SPECIES",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-Ref_Tree_Species.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ID",
+          "BINOMIALNOMENCLATURE",
+          "COMMONNAME",
+          "OFFSETAVERAGE_TCO2E_YEAR_TREE"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ID": "ID",
+        "BINOMIALNOMENCLATURE": "BinomialNomenclature",
+        "COMMONNAME": "CommonName",
+        "OFFSETAVERAGE_TCO2E_YEAR_TREE": "OffsetAverage_tco2e_year_tree"
+      }
+    }
+  ]
+}

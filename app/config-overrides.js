@@ -5,7 +5,7 @@ module.exports = override(useBabelRc(), addWebpackExternals({
         apiUrl: 'http://localhost:4000'
     }),
     "config": JSON.stringify({
-        apiUrl: 'http://localhost:3000/catalog'
+        apiUrl: '/api/catalog'
     })
 
 }));

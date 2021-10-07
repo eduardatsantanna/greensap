@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_REFORESTATIONAUDITS",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-ReforestationAudits.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "PROJECT_ID",
+          "SPECIES_ID",
+          "QUANTITY",
+          "RECORDEDAT"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "PROJECT_ID": "Project_ID",
+        "SPECIES_ID": "Species_ID",
+        "QUANTITY": "Quantity",
+        "RECORDEDAT": "RecordedAt"
+      }
+    }
+  ]
+}

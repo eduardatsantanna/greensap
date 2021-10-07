@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_PROJECTS" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="Projects"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="COM_GREENSAP_PROJECTS">
+    <resourceUri>COM_GREENSAP_PROJECTS</resourceUri>
+  </DataSource>
+  <DataSource id="CV_INVESTMENTS">
+    <resourceUri>CV_INVESTMENTS</resourceUri>
+  </DataSource>
+  <DataSource id="COM_GREENSAP_PROJECTFOLLOWERS">
+    <resourceUri>COM_GREENSAP_PROJECTFOLLOWERS</resourceUri>
+  </DataSource>
+  <DataSource id="CV_TREES">
+    <resourceUri>CV_TREES</resourceUri>
+  </DataSource>
+  <DataSource id="COM_GREENSAP_PLANTINGCOSTS">
+    <resourceUri>COM_GREENSAP_PLANTINGCOSTS</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="ProjectInvestments" cardinality="C1_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CREATEDAT" aggregationType="min"/>
+      <viewAttribute id="OWNER_APPUSER_ID"/>
+      <viewAttribute id="CENTROID_LATITUDE" aggregationType="sum"/>
+      <viewAttribute id="CENTROID_LONGITUDE" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGAREA_M2" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGDENSITY_M2" aggregationType="sum"/>
+      <viewAttribute id="WORKERCOUNT" aggregationType="sum"/>
+      <viewAttribute id="CERTIFIER_APPUSER_ID"/>
+    
+      <viewAttribute id="INVESTOR_ID"/>
+    
+      <viewAttribute id="BLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS"/>
+      <viewAttribute id="TOTALNET"/></viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="COM_GREENSAP_PROJECTS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATEDAT" source="CREATEDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER_APPUSER_ID" source="OWNER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LATITUDE" source="CENTROID_LATITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LONGITUDE" source="CENTROID_LONGITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGAREA_M2" source="PLANTINGAREA_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGDENSITY_M2" source="PLANTINGDENSITY_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WORKERCOUNT" source="WORKERCOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CERTIFIER_APPUSER_ID" source="CERTIFIER_APPUSER_ID"/>
+    </input>
+    <input node="CV_INVESTMENTS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="BLOCKSPURCHASED" source="AMOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVESTOR_ID" source="SENDER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="PROJECT_ID"/>
+    </input>
+    <joinAttribute name="ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="ProjectFollowers" cardinality="C1_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CREATEDAT" aggregationType="min"/>
+      <viewAttribute id="OWNER_APPUSER_ID"/>
+      <viewAttribute id="CENTROID_LATITUDE" aggregationType="sum"/>
+      <viewAttribute id="CENTROID_LONGITUDE" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGAREA_M2" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGDENSITY_M2" aggregationType="sum"/>
+      <viewAttribute id="WORKERCOUNT" aggregationType="sum"/>
+      <viewAttribute id="CERTIFIER_APPUSER_ID"/>
+      <viewAttribute id="INVESTOR_ID"/>
+      <viewAttribute id="TOTALBLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+      <viewAttribute id="OFFSETAVERAGE_TCO2E_YEAR_TREE" aggregationType="avg"/>
+      <viewAttribute id="TOTALTREESPLANTED" aggregationType="sum"/>
+      <viewAttribute id="TOTALOFFSETEXPECTED_TCO2E" aggregationType="sum"/>
+      <viewAttribute id="FOLLOWER_ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="AggregateTrees">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATEDAT" source="CREATEDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER_APPUSER_ID" source="OWNER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LATITUDE" source="CENTROID_LATITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LONGITUDE" source="CENTROID_LONGITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGAREA_M2" source="PLANTINGAREA_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGDENSITY_M2" source="PLANTINGDENSITY_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WORKERCOUNT" source="WORKERCOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CERTIFIER_APPUSER_ID" source="CERTIFIER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVESTOR_ID" source="INVESTOR_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALBLOCKSPURCHASED" source="TOTALBLOCKSPLANTED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OFFSETAVERAGE_TCO2E_YEAR_TREE" source="OFFSETAVERAGE_TCO2E_YEAR_TREE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALOFFSETEXPECTED_TCO2E" source="TOTALOFFSETEXPECTED_TCO2E"/>
+    
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALTREESPLANTED" source="TOTALTREESPLANTED"/>
+    </input>
+    <input node="COM_GREENSAP_PROJECTFOLLOWERS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="FOLLOWER_ID" source="APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="PROJECT_ID"/>
+    </input>
+    <joinAttribute name="ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:AggregationView" id="AggregateTrees">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CREATEDAT" aggregationType="min"/>
+      <viewAttribute id="OWNER_APPUSER_ID"/>
+      <viewAttribute id="CENTROID_LATITUDE"/>
+      <viewAttribute id="CENTROID_LONGITUDE"/>
+      <viewAttribute id="PLANTINGAREA_M2"/>
+      <viewAttribute id="PLANTINGDENSITY_M2"/>
+      <viewAttribute id="WORKERCOUNT"/>
+      <viewAttribute id="CERTIFIER_APPUSER_ID"/>
+      <viewAttribute id="INVESTOR_ID"/>
+      <viewAttribute id="TOTALBLOCKSPLANTED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+      <viewAttribute id="OFFSETAVERAGE_TCO2E_YEAR_TREE" aggregationType="avg"/>
+      <viewAttribute id="TOTALOFFSETEXPECTED_TCO2E" aggregationType="sum"/>
+    
+      <viewAttribute id="TOTALTREESPLANTED" aggregationType="sum"/></viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="ProjectTrees">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALBLOCKSPLANTED" source="TOTALBLOCKSPURCHASED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALTREESPLANTED" source="TREESPLANTED"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="ProjectTrees" cardinality="C1_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="TOTALBLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TREESPLANTED" aggregationType="sum"/>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CREATEDAT" aggregationType="min"/>
+      <viewAttribute id="OWNER_APPUSER_ID"/>
+      <viewAttribute id="CENTROID_LATITUDE" aggregationType="sum"/>
+      <viewAttribute id="CENTROID_LONGITUDE" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGAREA_M2" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGDENSITY_M2" aggregationType="sum"/>
+      <viewAttribute id="WORKERCOUNT" aggregationType="sum"/>
+      <viewAttribute id="CERTIFIER_APPUSER_ID"/>
+      <viewAttribute id="INVESTOR_ID"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+      <viewAttribute id="OFFSETAVERAGE_TCO2E_YEAR_TREE" aggregationType="sum"/>
+      <viewAttribute id="TOTALOFFSETEXPECTED_TCO2E"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="AggregateInvestments">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATEDAT" source="CREATEDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER_APPUSER_ID" source="OWNER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LATITUDE" source="CENTROID_LATITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LONGITUDE" source="CENTROID_LONGITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGAREA_M2" source="PLANTINGAREA_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGDENSITY_M2" source="PLANTINGDENSITY_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WORKERCOUNT" source="WORKERCOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CERTIFIER_APPUSER_ID" source="CERTIFIER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVESTOR_ID" source="INVESTOR_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALBLOCKSPURCHASED" source="TOTALBLOCKSPURCHASED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+    </input>
+    <input node="CV_TREES">
+      <mapping xsi:type="Calculation:AttributeMapping" target="OFFSETAVERAGE_TCO2E_YEAR_TREE" source="OFFSETAVERAGE_TCO2E_YEAR_TREE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALOFFSETEXPECTED_TCO2E" source="TOTALOFFSETEXPECTED_TCO2E"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TREESPLANTED" source="QUANTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="PROJECT_ID"/>
+    </input>
+    <joinAttribute name="ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:AggregationView" id="AggregateInvestments">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CREATEDAT" aggregationType="min"/>
+      <viewAttribute id="OWNER_APPUSER_ID"/>
+      <viewAttribute id="CENTROID_LATITUDE"/>
+      <viewAttribute id="CENTROID_LONGITUDE"/>
+      <viewAttribute id="PLANTINGAREA_M2"/>
+      <viewAttribute id="PLANTINGDENSITY_M2"/>
+      <viewAttribute id="WORKERCOUNT"/>
+      <viewAttribute id="CERTIFIER_APPUSER_ID"/>
+      <viewAttribute id="INVESTOR_ID"/>
+      <viewAttribute id="TOTALBLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="ProjectInvestments">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALBLOCKSPURCHASED" source="BLOCKSPURCHASED"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:AggregationView" id="AggregatedFollowers">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CREATEDAT" aggregationType="min"/>
+      <viewAttribute id="OWNER_APPUSER_ID"/>
+      <viewAttribute id="CENTROID_LATITUDE"/>
+      <viewAttribute id="CENTROID_LONGITUDE"/>
+      <viewAttribute id="PLANTINGAREA_M2"/>
+      <viewAttribute id="PLANTINGDENSITY_M2"/>
+      <viewAttribute id="WORKERCOUNT"/>
+      <viewAttribute id="CERTIFIER_APPUSER_ID"/>
+      <viewAttribute id="INVESTOR_ID"/>
+      <viewAttribute id="TOTALBLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+      <viewAttribute id="OFFSETAVERAGE_TCO2E_YEAR_TREE" aggregationType="avg"/>
+      <viewAttribute id="TOTALTREESPLANTED" aggregationType="sum"/>
+      <viewAttribute id="TOTALOFFSETEXPECTED_TCO2E" aggregationType="sum"/>
+      <viewAttribute id="FOLLOWER_ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="ProjectFollowers"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="ProjectCosts" cardinality="C1_1" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CREATEDAT" aggregationType="min"/>
+      <viewAttribute id="OWNER_APPUSER_ID"/>
+      <viewAttribute id="CENTROID_LATITUDE" aggregationType="sum"/>
+      <viewAttribute id="CENTROID_LONGITUDE" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGAREA_M2" aggregationType="sum"/>
+      <viewAttribute id="PLANTINGDENSITY_M2" aggregationType="sum"/>
+      <viewAttribute id="WORKERCOUNT" aggregationType="sum"/>
+      <viewAttribute id="CERTIFIER_APPUSER_ID"/>
+      <viewAttribute id="INVESTOR_ID"/>
+      <viewAttribute id="TOTALBLOCKSPURCHASED" aggregationType="sum"/>
+      <viewAttribute id="TOTALGROSS" aggregationType="sum"/>
+      <viewAttribute id="TOTALNET" aggregationType="sum"/>
+      <viewAttribute id="OFFSETAVERAGE_TCO2E_YEAR_TREE" aggregationType="avg"/>
+      <viewAttribute id="TOTALTREESPLANTED" aggregationType="sum"/>
+      <viewAttribute id="TOTALOFFSETEXPECTED_TCO2E" aggregationType="sum"/>
+      <viewAttribute id="FOLLOWER_ID"/>
+      <viewAttribute id="SOWCOST" aggregationType="sum"/>
+      <viewAttribute id="CONSERVATIONCOST" aggregationType="sum"/></viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="AggregatedFollowers">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CREATEDAT" source="CREATEDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OWNER_APPUSER_ID" source="OWNER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LATITUDE" source="CENTROID_LATITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CENTROID_LONGITUDE" source="CENTROID_LONGITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGAREA_M2" source="PLANTINGAREA_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="PLANTINGDENSITY_M2" source="PLANTINGDENSITY_M2"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="WORKERCOUNT" source="WORKERCOUNT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CERTIFIER_APPUSER_ID" source="CERTIFIER_APPUSER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="INVESTOR_ID" source="INVESTOR_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALBLOCKSPURCHASED" source="TOTALBLOCKSPURCHASED"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALGROSS" source="TOTALGROSS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALNET" source="TOTALNET"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="OFFSETAVERAGE_TCO2E_YEAR_TREE" source="OFFSETAVERAGE_TCO2E_YEAR_TREE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALOFFSETEXPECTED_TCO2E" source="TOTALOFFSETEXPECTED_TCO2E"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="FOLLOWER_ID" source="FOLLOWER_ID"/>
+    
+      <mapping xsi:type="Calculation:AttributeMapping" target="TOTALTREESPLANTED" source="TOTALTREESPLANTED"/>
+    </input>
+    <input node="ProjectedCosts">
+      <mapping xsi:type="Calculation:AttributeMapping" target="SOWCOST" source="SOWCOST"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CONSERVATIONCOST" source="CONSERVATIONCOST"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="PROJECT_ID"/>
+    </input>
+    <joinAttribute name="ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="ProjectedCosts" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="SOWCOST"/>
+      <viewAttribute id="CONSERVATIONCOST"/>
+    
+      <viewAttribute id="PROJECT_ID"/>
+      <viewAttribute id="VALIDTO"/></viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="COM_GREENSAP_PLANTINGCOSTS"/>
+    <filter>TO_DATE(&quot;VALIDTO&quot;) &gt;= NOW()</filter>
+  </calculationView>
+</calculationViews>
+<logicalModel id="ProjectCosts">
+  <attributes>
+    <attribute id="ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ID"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="ID"/>
+    </attribute>
+    <attribute id="OWNER_APPUSER_ID" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Non-Profit ID"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="OWNER_APPUSER_ID"/>
+    </attribute>
+    <attribute id="CENTROID_LATITUDE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Centroid Latitude"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="CENTROID_LATITUDE"/>
+    </attribute>
+    <attribute id="CENTROID_LONGITUDE" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Centroid Longitude"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="CENTROID_LONGITUDE"/>
+    </attribute>
+    <attribute id="WORKERCOUNT" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Worker Count"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="WORKERCOUNT"/>
+    </attribute>
+    <attribute id="CERTIFIER_APPUSER_ID" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Certifier ID"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="CERTIFIER_APPUSER_ID"/>
+    </attribute>
+    <attribute id="FOLLOWER_ID" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Follower ID"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="FOLLOWER_ID"/>
+    </attribute>
+    <attribute id="INVESTOR_ID" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Investor ID"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="INVESTOR_ID"/>
+    </attribute>
+    <attribute id="PLANTINGAREA_M2" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Planting Area (m2)"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="PLANTINGAREA_M2"/>
+    </attribute>
+    <attribute id="PLANTINGDENSITY_M2" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Planting Density (m2)"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="PLANTINGDENSITY_M2"/>
+    </attribute>
+    <attribute id="SOWCOST" order="23" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Sow Cost per tree"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="SOWCOST"/>
+    </attribute>
+    <attribute id="CONSERVATIONCOST" order="25" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Conservation Cost per tree"/>
+      <keyMapping columnObjectName="ProjectCosts" columnName="CONSERVATIONCOST"/>
+    </attribute></attributes>
+  <calculatedAttributes>
+    <calculatedAttribute id="BLOCKAREA_M2" order="14" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Block Area (m2)"/>
+      <keyCalculation datatype="DOUBLE" expressionLanguage="SQL">
+        <formula>&quot;PLANTINGAREA_M2&quot; / 400</formula>
+      </keyCalculation>
+      </calculatedAttribute>
+  
+    <calculatedAttribute id="TOTALBLOCKCAPACITY" order="15" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Total Block Capacity"/>
+  
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+  
+        <formula>FLOOR(&quot;PLANTINGAREA_M2&quot; / &quot;BLOCKAREA_M2&quot;)</formula>
+  
+      </keyCalculation>
+      </calculatedAttribute>
+    <calculatedAttribute id="BLOCKPLANTINGCAPACITY" order="16" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Block Planting Capacity"/>
+      <keyCalculation datatype="DOUBLE" expressionLanguage="SQL">
+        <formula>&quot;BLOCKAREA_M2&quot; / &quot;PLANTINGDENSITY_M2&quot;</formula>
+      </keyCalculation>
+      </calculatedAttribute>
+    <calculatedAttribute id="TOTALPLANTINGCAPACITY" order="17" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Total Planting Capacity"/>
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+        <formula>FLOOR(&quot;PLANTINGAREA_M2&quot; / &quot;PLANTINGDENSITY_M2&quot;)</formula>
+      </keyCalculation>
+      </calculatedAttribute>
+    <calculatedAttribute id="BLOCKOFFSETAVERAGE_TCO2E_YEAR" order="19" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Average Yearly Carbon Offset per block"/>
+      <keyCalculation datatype="DOUBLE" expressionLanguage="SQL">
+        <formula>&quot;BLOCKPLANTINGCAPACITY&quot; * &quot;OFFSETAVERAGE_TCO2E_YEAR_TREE&quot;</formula>
+      </keyCalculation>
+      </calculatedAttribute>
+    <calculatedAttribute id="BLOCKINITIALCOST" order="24" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Block Initial Cost"/>
+      <keyCalculation datatype="DECIMAL" expressionLanguage="SQL" length="9" scale="2">
+        <formula>&quot;BLOCKPLANTINGCAPACITY&quot; * &quot;SOWCOST&quot;</formula>
+      </keyCalculation>
+      </calculatedAttribute>
+    <calculatedAttribute id="BLOCKUPKEEPCOST" order="26" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Block Upkeep Cost"/>
+      <keyCalculation datatype="DECIMAL" expressionLanguage="SQL" length="9" scale="2">
+        <formula>&quot;BLOCKPLANTINGCAPACITY&quot; * &quot;CONSERVATIONCOST&quot;</formula>
+      </keyCalculation>
+      </calculatedAttribute>
+  </calculatedAttributes>
+  <baseMeasures>
+    <measure id="CREATEDAT" order="2" aggregationType="min" measureType="simple">
+      <descriptions defaultDescription="Created At Timestamp"/>
+      <measureMapping columnObjectName="ProjectCosts" columnName="CREATEDAT"/>
+    </measure>
+    <measure id="OFFSETAVERAGE_TCO2E_YEAR_TREE" order="18" aggregationType="avg" measureType="simple">
+      <descriptions defaultDescription="Average Carbon Offset per year per tree (tCO2e)"/>
+      <measureMapping columnObjectName="ProjectCosts" columnName="OFFSETAVERAGE_TCO2E_YEAR_TREE"/>
+    </measure>
+    <measure id="TOTALTREESPLANTED" order="20" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Trees Planted"/>
+      <measureMapping columnObjectName="ProjectCosts" columnName="TOTALTREESPLANTED"/>
+    </measure>
+    <measure id="TOTALOFFSETEXPECTED_TCO2E" order="21" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Expected Carbon Offset until present (tCO2e)"/>
+      <measureMapping columnObjectName="ProjectCosts" columnName="TOTALOFFSETEXPECTED_TCO2E"/>
+    </measure>
+  
+    <measure id="TOTALBLOCKSPURCHASED" order="22" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Blocks Purchased"/>
+      <measureMapping columnObjectName="ProjectCosts" columnName="TOTALBLOCKSPURCHASED"/>
+    </measure>
+    <measure id="TOTALGROSS" order="27" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Gross Investments"/>
+      <measureMapping columnObjectName="ProjectCosts" columnName="TOTALGROSS"/>
+    </measure>
+    <measure id="TOTALNET" order="28" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Total Net Investments"/>
+      <measureMapping columnObjectName="ProjectCosts" columnName="TOTALNET"/>
+    </measure></baseMeasures>
+  <calculatedMeasures>
+    <measure id="FOLLOWERCOUNT" order="9" aggregationType="sum" measureType="simple" calculatedMeasureType="counter" aggregatable="true" datatype="BIGINT" length="">
+      <descriptions defaultDescription="Follower Count"/>
+      <exceptionAggregation>
+        <attribute attributeName="FOLLOWER_ID"/>
+      </exceptionAggregation>
+      <formula>1</formula>
+      
+      
+      </measure>
+    <measure id="INVESTORCOUNT" order="11" aggregationType="sum" measureType="simple" calculatedMeasureType="counter" aggregatable="true" datatype="BIGINT" length="">
+      <descriptions defaultDescription="Investor Count"/>
+      <exceptionAggregation>
+        <attribute attributeName="INVESTOR_ID"/>
+      </exceptionAggregation>
+      <formula>1</formula>
+      
+      
+      </measure>
+  </calculatedMeasures>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="217" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="ProjectInvestments" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="243" y="1031"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_PROJECTS" modelObjectNameSpace="ProjectInvestments" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="237"/>
+    </shape>
+    <shape modelObjectName="CV_INVESTMENTS" modelObjectNameSpace="ProjectInvestments" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="186"/>
+    </shape>
+    <shape expanded="true" modelObjectName="ProjectFollowers" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="264" y="521"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="AggregateTrees" modelObjectNameSpace="ProjectFollowers" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="295"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_PROJECTFOLLOWERS" modelObjectNameSpace="ProjectFollowers" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="920" y="30"/>
+      <rectangleSize width="306"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="AggregateTrees" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="243" y="681"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="ProjectTrees" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="243" y="786"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="AggregateInvestments" modelObjectNameSpace="ProjectTrees" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="CV_TREES" modelObjectNameSpace="ProjectTrees" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="920" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+  
+  <shape><upperLeftCorner/><rectangleSize/></shape>
+  
+    <shape expanded="true" modelObjectName="AggregateInvestments" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="243" y="926"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="AggregatedFollowers" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="301" y="386"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="ProjectCosts" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="217" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="AggregatedFollowers" modelObjectNameSpace="ProjectCosts" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+    <shape modelObjectName="ProjectedCosts" modelObjectNameSpace="ProjectCosts" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="202"/>
+    </shape>
+    <shape expanded="true" modelObjectName="ProjectedCosts" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="376"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

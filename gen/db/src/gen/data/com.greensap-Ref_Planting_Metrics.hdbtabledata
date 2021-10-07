@@ -1,0 +1,29 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "COM_GREENSAP_REF_PLANTING_METRICS",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "com.greensap-Ref_Planting_Metrics.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ID",
+          "DESCRIPTION",
+          "SYMBOL"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ID": "ID",
+        "DESCRIPTION": "Description",
+        "SYMBOL": "Symbol"
+      }
+    }
+  ]
+}

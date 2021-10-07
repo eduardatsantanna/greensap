@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:DataFoundation="http://www.sap.com/ndb/BiModelDataFoundation.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" id="CV_TREES" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="Trees"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="COM_GREENSAP_REFORESTATIONAUDITS">
+    <resourceUri>COM_GREENSAP_REFORESTATIONAUDITS</resourceUri>
+  </DataSource>
+  <DataSource id="COM_GREENSAP_REF_TREE_SPECIES">
+    <resourceUri>COM_GREENSAP_REF_TREE_SPECIES</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="TreeSpecies" cardinality="CN_1" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="PROJECT_ID"/>
+      <viewAttribute id="SPECIES_ID"/>
+      <viewAttribute keepFlag="true" id="COMMONNAME"/>
+      <viewAttribute id="QUANTITY" aggregationType="sum"/>
+      <viewAttribute id="RECORDEDAT" aggregationType="min"/>
+      <viewAttribute id="OFFSETAVERAGE_TCO2E_YEAR_TREE" aggregationType="sum"/></viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="COM_GREENSAP_REFORESTATIONAUDITS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROJECT_ID" source="PROJECT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="QUANTITY" source="QUANTITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RECORDEDAT" source="RECORDEDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SPECIES_ID" source="SPECIES_ID"/>
+    </input>
+    <input node="COM_GREENSAP_REF_TREE_SPECIES">
+      <mapping xsi:type="Calculation:AttributeMapping" target="OFFSETAVERAGE_TCO2E_YEAR_TREE" source="OFFSETAVERAGE_TCO2E_YEAR_TREE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="COMMONNAME" source="COMMONNAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="SPECIES_ID" source="ID"/>
+    </input>
+    <joinAttribute name="SPECIES_ID"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="TreeSpecies">
+  <attributes>
+    <attribute id="PROJECT_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Project ID"/>
+      <keyMapping columnObjectName="TreeSpecies" columnName="PROJECT_ID"/>
+    </attribute>
+  
+    <attribute id="SPECIES_ID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Species ID"/>
+  
+      <keyMapping columnObjectName="TreeSpecies" columnName="SPECIES_ID"/>
+  
+    </attribute>
+    <attribute id="COMMONNAME" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COMMONNAME"/>
+      <keyMapping columnObjectName="TreeSpecies" columnName="COMMONNAME"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes>
+    <calculatedAttribute id="YEAR" order="7" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Year"/>
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+        <formula>YEAR(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="QUARTER" order="8" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Quarter"/>
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="2">
+        <formula>RIGHT(QUARTER(TO_DATE(&quot;RECORDEDAT&quot;)),2)</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="MONTH" order="9" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Month"/>
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+        <formula>MONTH(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+  
+    <calculatedAttribute id="MONTHNAME" order="10" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Month Name"/>
+  
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="9">
+  
+        <formula>MONTHNAME(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+  
+      </keyCalculation>
+  
+    </calculatedAttribute>
+    <calculatedAttribute id="CWEEK" order="11" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Calendar Week"/>
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="3">
+        <formula>RIGHT(ISOWEEK(TO_DATE(&quot;RECORDEDAT&quot;)),3)</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="WEEKDAY" order="12" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Week Day"/>
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+        <formula>WEEKDAY(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="DAYNAME" order="13" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Day Name"/>
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="9">
+        <formula>DAYNAME(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="TOTALOFFSETEXPECTED_TCO2E" order="14" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Expected Carbon Offset Total Until Present (tCO2e)"/>
+      <keyCalculation datatype="DOUBLE" expressionLanguage="SQL">
+        <formula>YEARS_BETWEEN(TO_DATE(&quot;RECORDEDAT&quot;), NOW()) * &quot;OFFSETAVERAGE_TCO2E_YEAR_TREE&quot; * &quot;QUANTITY&quot;</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+  </calculatedAttributes>
+  <baseMeasures>
+    <measure id="QUANTITY" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Quantity"/>
+      <measureMapping columnObjectName="TreeSpecies" columnName="QUANTITY"/>
+    </measure>
+    <measure id="RECORDEDAT" order="5" aggregationType="min" measureType="simple">
+      <descriptions defaultDescription="Recorded At Timestamp"/>
+      <measureMapping columnObjectName="TreeSpecies" columnName="RECORDEDAT"/>
+    </measure>
+    <measure id="OFFSETAVERAGE_TCO2E_YEAR_TREE" order="6" aggregationType="avg" measureType="simple">
+      <descriptions defaultDescription="Average Species Yearly Carbon Offset (tCO2e)"/>
+      <measureMapping columnObjectName="TreeSpecies" columnName="OFFSETAVERAGE_TCO2E_YEAR_TREE"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions>
+    <localDimension id="DATE">
+      <attributeRef xsi:type="DataFoundation:Attribute">YEAR</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">QUARTER</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">MONTHNAME</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">CWEEK</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">DAYNAME</attributeRef>
+      <hierarchies>
+        <hierarchy xsi:type="Dimension:LeveledHierarchy" id="DATE" aggregateAllNodes="true" orphanedNodesHandling="ROOT_NODES" rootNodeVisibility="ADD_ROOT_NODE" withRootNode="true" nodeStyle="LEVEL_NAME_ENFORCED" cacheEnabled="true" cycleHandling="BREAKUP" emptyValueIsNull="true">
+          <descriptions defaultDescription="Date"/>
+          <unassignedMemberProperties mode="FALSE"/>
+          <levels>
+            <level levelAttribute="YEAR" levelType="MDLEVEL_TYPE_TIME_YEARS" order="1" orderAttribute="YEAR" sortDirection="ASC"/>
+            <level levelAttribute="QUARTER" levelType="MDLEVEL_TYPE_TIME_QUARTERS" order="2" orderAttribute="QUARTER" sortDirection="ASC"/>
+            <level levelAttribute="MONTHNAME" levelType="MDLEVEL_TYPE_TIME_MONTHS" order="3" orderAttribute="MONTH" sortDirection="ASC"/>
+            <level levelAttribute="CWEEK" levelType="MDLEVEL_TYPE_TIME_WEEKS" order="4" orderAttribute="CWEEK" sortDirection="ASC"/>
+            <level levelAttribute="DAYNAME" levelType="MDLEVEL_TYPE_TIME_DAYS" order="5" orderAttribute="WEEKDAY" sortDirection="ASC"/>
+          </levels>
+        </hierarchy>
+      </hierarchies>
+    </localDimension>
+  </localDimensions>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="TreeSpecies" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="201"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_REFORESTATIONAUDITS" modelObjectNameSpace="TreeSpecies" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="318"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_REF_TREE_SPECIES" modelObjectNameSpace="TreeSpecies" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="301"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

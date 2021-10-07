@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" xmlns:DataFoundation="http://www.sap.com/ndb/BiModelDataFoundation.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" id="CV_MEASUREMENTS" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="Measurements"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="COM_GREENSAP_REFORESTATIONMEASUREMENTS">
+    <resourceUri>COM_GREENSAP_REFORESTATIONMEASUREMENTS</resourceUri>
+  </DataSource>
+  <DataSource id="COM_GREENSAP_REF_PLANTING_METRICS">
+    <resourceUri>COM_GREENSAP_REF_PLANTING_METRICS</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="MeasurementMetrics" cardinality="CN_1" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="PROJECT_ID"/>
+      <viewAttribute id="VALUE" aggregationType="sum"/>
+      <viewAttribute id="RECORDEDAT" aggregationType="min"/>
+      <viewAttribute id="SYMBOL"/>
+      <viewAttribute hidden="true" id="JOIN$METRIC_ID$ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="COM_GREENSAP_REFORESTATIONMEASUREMENTS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="PROJECT_ID" source="PROJECT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="VALUE" source="VALUE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="RECORDEDAT" source="RECORDEDAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$METRIC_ID$ID" source="METRIC_ID"/>
+    </input>
+    <input node="COM_GREENSAP_REF_PLANTING_METRICS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="SYMBOL" source="SYMBOL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$METRIC_ID$ID" source="ID"/>
+    </input>
+    <joinAttribute name="JOIN$METRIC_ID$ID"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="MeasurementMetrics">
+  <attributes>
+    <attribute id="PROJECT_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Project ID"/>
+      <keyMapping columnObjectName="MeasurementMetrics" columnName="PROJECT_ID"/>
+    </attribute>
+    <attribute id="SYMBOL" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Symbol"/>
+      <keyMapping columnObjectName="MeasurementMetrics" columnName="SYMBOL"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes>
+    <calculatedAttribute id="YEAR" order="5" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Year"/>
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+        <formula>YEAR(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+  
+    <calculatedAttribute id="QUARTER" order="6" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Quarter"/>
+  
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="2">
+  
+        <formula>RIGHT(QUARTER(TO_DATE(&quot;RECORDEDAT&quot;)),2)</formula>
+  
+      </keyCalculation>
+  
+    </calculatedAttribute>
+    <calculatedAttribute id="MONTH" order="7" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Month"/>
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+        <formula>MONTH(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="MONTHNAME" order="8" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Month Name"/>
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="9">
+        <formula>MONTHNAME(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="CWEEK" order="9" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Calendar Week"/>
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="3">
+        <formula>RIGHT(ISOWEEK(TO_DATE(&quot;RECORDEDAT&quot;)),3)</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+    <calculatedAttribute id="WEEKDAY" order="10" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Week Day"/>
+      <keyCalculation datatype="INTEGER" expressionLanguage="SQL">
+        <formula>WEEKDAY(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+      </keyCalculation>
+    </calculatedAttribute>
+  
+    <calculatedAttribute id="DAYNAME" order="11" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Day Name"/>
+  
+      <keyCalculation datatype="NVARCHAR" expressionLanguage="SQL" length="9">
+  
+        <formula>DAYNAME(TO_DATE(&quot;RECORDEDAT&quot;))</formula>
+  
+      </keyCalculation>
+  
+    </calculatedAttribute>
+  </calculatedAttributes>
+  <baseMeasures>
+    <measure id="VALUE" order="2" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Value"/>
+      <measureMapping columnObjectName="MeasurementMetrics" columnName="VALUE"/>
+    </measure>
+    <measure id="RECORDEDAT" order="3" aggregationType="min" measureType="simple">
+      <descriptions defaultDescription="Recorded At Timestamp"/>
+      <measureMapping columnObjectName="MeasurementMetrics" columnName="RECORDEDAT"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions>
+    <localDimension id="DATE">
+      <attributeRef xsi:type="DataFoundation:Attribute">YEAR</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">QUARTER</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">MONTHNAME</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">CWEEK</attributeRef>
+      <attributeRef xsi:type="DataFoundation:Attribute">DAYNAME</attributeRef>
+      <hierarchies>
+        <hierarchy xsi:type="Dimension:LeveledHierarchy" id="DATE" aggregateAllNodes="true" orphanedNodesHandling="ROOT_NODES" rootNodeVisibility="ADD_ROOT_NODE" withRootNode="true" nodeStyle="LEVEL_NAME_ENFORCED" cacheEnabled="true" cycleHandling="BREAKUP" emptyValueIsNull="true">
+          <descriptions defaultDescription="Date"/>
+          <unassignedMemberProperties mode="FALSE"/>
+          <levels>
+            <level levelAttribute="YEAR" levelType="MDLEVEL_TYPE_TIME_YEARS" order="1" orderAttribute="YEAR" sortDirection="ASC"/>
+            <level levelAttribute="QUARTER" levelType="MDLEVEL_TYPE_TIME_QUARTERS" order="2" orderAttribute="QUARTER" sortDirection="ASC"/>
+            <level levelAttribute="MONTHNAME" levelType="MDLEVEL_TYPE_TIME_MONTHS" order="3" orderAttribute="MONTH" sortDirection="ASC"/>
+            <level levelAttribute="CWEEK" levelType="MDLEVEL_TYPE_TIME_WEEKS" order="4" orderAttribute="CWEEK" sortDirection="ASC"/>
+            <level levelAttribute="DAYNAME" levelType="MDLEVEL_TYPE_TIME_DAYS" order="5" orderAttribute="WEEKDAY" sortDirection="ASC"/>
+          </levels>
+        </hierarchy>
+      </hierarchies>
+    </localDimension>
+  </localDimensions>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="MeasurementMetrics" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="100" y="200"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_REFORESTATIONMEASUREMENTS" modelObjectNameSpace="MeasurementMetrics" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="375"/>
+    </shape>
+    <shape modelObjectName="COM_GREENSAP_REF_PLANTING_METRICS" modelObjectNameSpace="MeasurementMetrics" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>
